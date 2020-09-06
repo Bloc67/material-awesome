@@ -7,30 +7,30 @@ local tags = {
   {
     icon = icons.chrome,
     type = 'chrome',
-    defaultApp = apps.default.browser,
+    defaultApp = 'opera',
     screen = 1
   },
   {
     icon = icons.code,
     type = 'code',
-    defaultApp = apps.default.editor,
-    screen = 1
-  },
-  {
-    icon = icons.social,
-    type = 'social',
-    defaultApp = apps.default.social,
-    screen = 1
-  },
-  {
-    icon = icons.game,
-    type = 'game',
-    defaultApp = apps.default.game,
+    defaultApp = 'terminator',
     screen = 1
   },
   {
     icon = icons.folder,
     type = 'files',
+    defaultApp = apps.default.files,
+    screen = 1
+  },
+  {
+    icon = icons.brightness,
+    type = 'media',
+    defaultApp = apps.default.files,
+    screen = 1
+  },
+  {
+    icon = icons.harddisk,
+    type = 'windows',
     defaultApp = apps.default.files,
     screen = 1
   },
@@ -43,7 +43,13 @@ local tags = {
   {
     icon = icons.lab,
     type = 'any',
-    defaultApp = apps.default.rofi,
+    defaultApp = apps.default.files,
+    screen = 1
+  },
+  {
+    icon = icons.lab,
+    type = 'any2',
+    defaultApp = apps.default.files,
     screen = 1
   }
 }

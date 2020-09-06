@@ -10,7 +10,7 @@ local apps = require('configuration.apps')
 local globalKeys =
   awful.util.table.join(
   -- Hotkeys
-  awful.key({modkey}, 'F1', hotkeys_popup.show_help, {description = 'show help', group = 'awesome'}),
+  awful.key({modkey}, '1', hotkeys_popup.show_help, {description = 'show help', group = 'awesome'}),
   -- Tag browsing
   awful.key({modkey}, 'w', awful.tag.viewprev, {description = 'view previous', group = 'tag'}),
   awful.key({modkey}, 's', awful.tag.viewnext, {description = 'view next', group = 'tag'}),
@@ -274,6 +274,20 @@ local globalKeys =
       awful.spawn('xbacklight -dec 10')
     end,
     {description = '-10%', group = 'hotkeys'}
+  ),
+  -- shift to TV display
+  awful.key(
+    { modkey, "Shift" }, 
+    "Prior", function () 
+      awful.util.spawn("tv.sh") 
+    end
+  ),
+  -- shift to PC display
+  awful.key(
+    { modkey, "Shift" }, 
+    "Next", function () 
+      awful.util.spawn("pc.sh") 
+    end
   ),
   -- ALSA volume control
   awful.key(
