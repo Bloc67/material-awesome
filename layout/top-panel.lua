@@ -12,7 +12,7 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
-local textclock = wibox.widget.textclock('<span font="Roboto Mono bold 9">%d.%m.%Y\n     %H:%M</span>')
+local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 8">%d.%m.%Y</span><span font="Roboto Mono bold 10" color="#70e0f0">\n  %H:%M</span>')
 
 -- Clock / Calendar 12AM/PM fornat
 -- local textclock = wibox.widget.textclock('<span font="Roboto Mono bold 9">%d.%m.%Y\n  %I:%M %p</span>\n<span font="Roboto Mono bold 9">%p</span>')

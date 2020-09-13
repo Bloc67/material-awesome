@@ -215,28 +215,14 @@ local globalKeys =
     end,
     {description = 'select previous', group = 'layout'}
   ),
-  awful.key(
-    {modkey, 'Control'},
-    'n',
-    function()
-      local c = awful.client.restore()
-      -- Focus restored client
-      if c then
-        _G.client.focus = c
-        c:raise()
-      end
-    end,
-    {description = 'restore minimized', group = 'client'}
-  ),
+
   -- Dropdown application
-  awful.key(
-    {modkey},
-    'z',
+  --[[awful.key({}
     function()
       _G.toggle_quake()
     end,
     {description = 'dropdown application', group = 'launcher'}
-  ),
+  ),--]]
   -- Widgets popups
   --[[awful.key(
     {altkey},
@@ -274,20 +260,6 @@ local globalKeys =
       awful.spawn('xbacklight -dec 10')
     end,
     {description = '-10%', group = 'hotkeys'}
-  ),
-  -- shift to TV display
-  awful.key(
-    { modkey, "Shift" }, 
-    "Prior", function () 
-      awful.util.spawn("tv.sh") 
-    end
-  ),
-  -- shift to PC display
-  awful.key(
-    { modkey, "Shift" }, 
-    "Next", function () 
-      awful.util.spawn("pc.sh") 
-    end
   ),
   -- ALSA volume control
   awful.key(
@@ -369,28 +341,12 @@ local globalKeys =
       awful.util.spawn_with_shell('vm-attach attach')
     end
   ),
-  -- Lutris hotkey
-  awful.key(
-    {modkey},
-    'g',
-    function()
-      awful.util.spawn_with_shell('lutris')
-    end
-  ),
   -- System Monitor hotkey
   awful.key(
     {modkey},
     'm',
     function()
       awful.util.spawn_with_shell('mate-system-monitor')
-    end
-  ),
-  -- Kill VLC
-  awful.key(
-    {modkey},
-    'v',
-    function()
-      awful.util.spawn_with_shell('killall -9 vlc')
     end
   ),
   -- File Manager
@@ -400,16 +356,7 @@ local globalKeys =
     function()
       awful.util.spawn(apps.default.files)
     end,
-    {description = 'filebrowser', group = 'hotkeys'}
-  ),
-  -- Emoji Picker
-  awful.key(
-    {modkey},
-    'a',
-    function()
-      awful.util.spawn_with_shell('ibus emoji')
-    end,
-    {description = 'Open the ibus emoji picker to copy an emoji to your clipboard', group = 'hotkeys'}
+    {description = 'Default File Manager launch', group = 'hotkeys'}
   )
 )
 

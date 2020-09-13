@@ -19,12 +19,12 @@ return {
     editor = 'xed', -- gui text editor
     social = 'discord',
     game = rofi_command,
-    files = 'nautilus',
+    files = 'nemo',
     music = 'audacious' 
   },
   -- List of apps to start once on start-up
   run_on_start_up = {
-    'picom --config ' .. filesystem.get_configuration_dir() .. '/configuration/picom.conf',
+    'compton --config ' .. filesystem.get_configuration_dir() .. '/configuration/compton.conf',
     'nm-applet --indicator', -- wifi
     --'pnmixer', -- shows an audiocontrol applet in systray when installed.
     --'blueberry-tray', -- Bluetooth tray icon

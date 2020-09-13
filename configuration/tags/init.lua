@@ -5,6 +5,18 @@ local apps = require('configuration.apps')
 
 local tags = {
   {
+    icon = icons.lab,
+    type = 'any',
+    defaultApp = apps.default.rofi,
+    screen = 1
+  },
+  {
+    icon = icons.harddisk,
+    type = 'windows',
+    defaultApp = 'emby-theater',
+    screen = 1
+  },
+  {
     icon = icons.chrome,
     type = 'chrome',
     defaultApp = 'opera',
@@ -19,19 +31,31 @@ local tags = {
   {
     icon = icons.folder,
     type = 'files',
-    defaultApp = apps.default.files,
+    defaultApp = 'nemo',
     screen = 1
   },
   {
     icon = icons.brightness,
     type = 'media',
-    defaultApp = apps.default.files,
+    defaultApp = 'nemo',
     screen = 1
   },
   {
-    icon = icons.harddisk,
-    type = 'windows',
-    defaultApp = apps.default.files,
+    icon = icons.thermometer,
+    type = 'any',
+    defaultApp = 'nemo',
+    screen = 1
+  },
+  {
+    icon = icons.memory,
+    type = 'gimp',
+    defaultApp = 'gimp',
+    screen = 1
+  },
+  {
+    icon = icons.search,
+    type = 'gimp',
+    defaultApp = 'gimp',
     screen = 1
   },
   {
@@ -39,25 +63,13 @@ local tags = {
     type = 'music',
     defaultApp = apps.default.music,
     screen = 1
-  },
-  {
-    icon = icons.lab,
-    type = 'any',
-    defaultApp = apps.default.files,
-    screen = 1
-  },
-  {
-    icon = icons.lab,
-    type = 'any2',
-    defaultApp = apps.default.files,
-    screen = 1
   }
 }
 
 awful.layout.layouts = {
   awful.layout.suit.tile,
-  awful.layout.suit.max,
-  awful.layout.suit.floating
+  awful.layout.suit.max
+  --awful.layout.suit.floating
 }
 
 awful.screen.connect_for_each_screen(
