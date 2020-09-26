@@ -18,14 +18,14 @@ local tags = {
   },
   {
     icon = icons.chrome,
-    type = 'chrome',
-    defaultApp = 'opera',
+    type = 'browser',
+    defaultApp = 'brave',
     screen = 1
   },
   {
     icon = icons.code,
     type = 'code',
-    defaultApp = 'terminator',
+    defaultApp = 'xed',
     screen = 1
   },
   {
@@ -37,23 +37,17 @@ local tags = {
   {
     icon = icons.brightness,
     type = 'media',
-    defaultApp = 'nemo',
+    defaultApp = apps.default.rofi,
     screen = 1
   },
   {
     icon = icons.thermometer,
     type = 'any',
-    defaultApp = 'nemo',
+    defaultApp = apps.default.rofi,
     screen = 1
   },
   {
     icon = icons.memory,
-    type = 'gimp',
-    defaultApp = 'gimp',
-    screen = 1
-  },
-  {
-    icon = icons.search,
     type = 'gimp',
     defaultApp = 'gimp',
     screen = 1
@@ -82,7 +76,7 @@ awful.screen.connect_for_each_screen(
           icon_only = true,
           layout = awful.layout.suit.tile,
           gap_single_client = false,
-          gap = 4,
+          gap = 2,
           screen = s,
           defaultApp = tag.defaultApp,
           selected = i == 1

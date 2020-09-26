@@ -6,13 +6,14 @@ local gears = require('gears')
 local clickable_container = require('widget.material.clickable-container')
 local mat_icon_button = require('widget.material.icon-button')
 local mat_icon = require('widget.material.icon')
+local watch = require('awful.widget.watch')
 
 local dpi = require('beautiful').xresources.apply_dpi
 
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
-local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 8">%d.%m.%Y</span><span font="Roboto Mono bold 10" color="#70e0f0">\n  %H:%M</span>')
+local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 8">%d.%m.%Y</span><span font="Roboto Mono bold 11" color="#70e0f0">\n  %H:%M</span>')
 
 -- Clock / Calendar 12AM/PM fornat
 -- local textclock = wibox.widget.textclock('<span font="Roboto Mono bold 9">%d.%m.%Y\n  %I:%M %p</span>\n<span font="Roboto Mono bold 9">%p</span>')
@@ -46,6 +47,100 @@ add_button:buttons(
       end
     )
   )
+)
+
+-- my buttons
+-- CPU
+local total_prev = 0
+local idle_prev = 0
+local cpuload = wibox.widget.textbox()
+watch(
+  [[bash -c "cat /proc/stat | grep '^cpu '"]],
+  5,
+  function(_, stdout)
+    local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
+      stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
+
+    local total = user + nice + system + idle + iowait + irq + softirq + steal
+
+    local diff_idle = idle - idle_prev
+    local diff_total = total - total_prev
+    local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
+
+    cpuload.markup = '<span color="#c0c0c0">' .. math.ceil(diff_usage) .. "% " .. '</span>'
+
+    total_prev = total
+    idle_prev = idle
+    collectgarbage('collect')
+  end
+)
+--TEMPERATURE
+local max_temp = 80
+local tempload = wibox.widget.textbox()
+watch(
+  'bash -c "cat /sys/class/thermal/thermal_zone0/temp"',
+  10,
+  function(_, stdout)
+    local temp = stdout:match('(%d+)')
+    tempload.markup = '<span color="#e0e0e0">' .. math.ceil((temp / 1000) / max_temp * 100) .. "° " .. '</span>'
+    collectgarbage('collect')
+  end
+)
+--MEMORY
+local memload = wibox.widget.textbox()
+watch(
+  'bash -c "free | grep -z Mem.*Swap.*"',
+  30,
+  function(_, stdout)
+    local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
+      stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
+    memload.markup = '<span color="#c0c0c0">' .. math.ceil(used / total * 28) .. '</span><span color="#808080">/28GB</span> ' 
+    collectgarbage('collect')
+  end
+)
+--DISKS
+local diskhome = wibox.widget {
+    max_value           = 100,
+    value               = 0.33,
+    forced_height       = 10,
+    forced_width        = 30,
+    --shape             = gears.shape.rounded_bar,
+    border_width        = 1,
+    border_color        = '#338877',
+    color               = '#44aa99',
+    background_color    = '#223344',
+    widget              = wibox.widget.progressbar,
+}
+watch(
+  [[bash -c "df -h /home|grep '^/' | awk '{print $5}'"]],
+  60,
+  function(_, stdout)
+    local space_consumed = stdout:match('(%d+)')
+    diskhome:set_value(tonumber(space_consumed))
+    collectgarbage('collect')
+  end
+)
+local disklabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">TO / H</span>')
+local disktorrent = wibox.widget {
+    max_value           = 100,
+    value               = 0.33,
+    forced_height       = 10,
+    forced_width        = 30,
+    --shape             = gears.shape.rounded_bar,
+    border_width        = 1,
+    border_color        = '#3377cc',
+    color               = '#4488bb',
+    background_color    = '#223344',
+    widget              = wibox.widget.progressbar,
+}
+watch(
+  [[bash -c "df -h /mnt/Torrents|grep '^/' | awk '{print $5}'"]],
+  60,
+  function(_, stdout)
+    local space_consumed = stdout:match('(%d+)')
+    disktorrent:set_value(tonumber(space_consumed))
+    collectgarbage('collect')
+  end
 )
 
 -- Create an imagebox widget which will contains an icon indicating which layout we're using.
@@ -127,7 +222,26 @@ local TopPanel = function(s, offset)
     nil,
     {
       layout = wibox.layout.fixed.horizontal,
-      -- Clock
+      {
+        {
+            wibox.container.margin (cpuload,0,3,7,2),
+            wibox.container.margin (tempload,0,3,7,2),
+            wibox.container.margin (memload,0,0,7,2),
+            layout = wibox.layout.align.horizontal,
+        },
+        {
+            disklabel,
+            wibox.container.margin (disktorrent,5,5,0,0),
+            diskhome,
+            layout = wibox.layout.align.horizontal,
+        },
+        forced_num_cols = 1,
+        forced_num_rows = 1,
+        homogeneous     = false,
+        expand          = false,
+        width           = 500,
+        layout = wibox.layout.grid
+      },
       clock_widget,
       -- Layout box
       LayoutBox(s)
