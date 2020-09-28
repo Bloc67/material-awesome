@@ -7,7 +7,7 @@ local tags = {
   {
     icon = icons.lab,
     type = 'any',
-    defaultApp = apps.default.rofi,
+    defaultApp = 'pulseeffects',
     screen = 1
   },
   {

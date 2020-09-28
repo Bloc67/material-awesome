@@ -15,18 +15,18 @@ return {
     screenshot = 'flameshot full -p ~/Pictures',
     region_screenshot = 'flameshot gui -p ~/Pictures',
     delayed_screenshot = 'flameshot full -p ~/Pictures -d 5000',
-    browser = 'opera',
+    browser = 'brave-browser',
     editor = 'xed', -- gui text editor
     social = 'discord',
     game = rofi_command,
-    files = 'nemo',
+    files = 'thunar',
     music = 'audacious' 
   },
   -- List of apps to start once on start-up
   run_on_start_up = {
     'compton --config ' .. filesystem.get_configuration_dir() .. '/configuration/compton.conf',
-    'nm-applet --indicator', -- wifi
-    --'pnmixer', -- shows an audiocontrol applet in systray when installed.
+    --'nm-applet --indicator', -- wifi
+    'pulseeffects', -- audiocontrol
     --'blueberry-tray', -- Bluetooth tray icon
     'numlockx on', -- enable numlock
     '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)', -- credential manager

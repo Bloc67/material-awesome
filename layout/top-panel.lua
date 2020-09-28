@@ -7,6 +7,7 @@ local clickable_container = require('widget.material.clickable-container')
 local mat_icon_button = require('widget.material.icon-button')
 local mat_icon = require('widget.material.icon')
 local watch = require('awful.widget.watch')
+local awesomebuttons = require("awesome-buttons.awesome-buttons")
 
 local dpi = require('beautiful').xresources.apply_dpi
 
@@ -50,6 +51,60 @@ add_button:buttons(
 )
 
 -- my buttons
+
+-- pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo
+-- pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
+-- awful.key({modkey, 'Control'}, 'r', _G.awesome.restart, {description = 'reload awesome', group = 'awesome'}),
+
+local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal"
+
+local do_hdmi_audio = "pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo"
+
+local do_stereo = "pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off"
+local awesome_restart = awesomebuttons.with_icon{ 
+    icon = 'refresh-cw',
+    type = 'outline', 
+    margins = 8,
+    size = 15,
+    border = 2,
+    color = 'teal' ,
+    shape = 'circle',
+    onclick = _G.awesome.restart 
+}
+local tv = awesomebuttons.with_icon{ 
+    icon = 'film',
+    type = 'outline', 
+    margins = 8,
+    size = 15,
+    border = 2,
+    color = 'olive' ,
+    shape = 'circle',
+    onclick = do_hdmi,
+    restart = 1 
+}
+local tvaudio = awesomebuttons.with_icon{ 
+    icon = 'film',
+    type = 'outline', 
+    margins = 8,
+    size = 15,
+    border = 2,
+    color = 'steelblue' ,
+    shape = 'circle',
+    onclick = do_hdmi_audio,
+}
+local pc = awesomebuttons.with_icon{ 
+    icon = 'tv',
+    type = 'outline', 
+    margins = 8,
+    size = 15,
+    border = 2,
+    color = 'grey' ,
+    shape = 'circle',
+    onclick = do_stereo,
+    restart = 1 
+}
+
+
 -- CPU
 local total_prev = 0
 local idle_prev = 0
@@ -94,16 +149,22 @@ watch(
   function(_, stdout)
     local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
-    memload.markup = '<span color="#c0c0c0">' .. math.ceil(used / total * 28) .. '</span><span color="#808080">/28GB</span> ' 
+    memload.markup = '<span color="#c0c0c0">' .. math.ceil(used / total * 28) .. '</span><span color="#808080">/28GB</span>' 
     collectgarbage('collect')
   end
 )
 --DISKS
+-- sde2 /
+-- sda1 /mnt/Filmer
+-- sda2 /mnt/Torrents
+-- sdd1 /mnt/familiebilder
+-- sdf1 /mnt/tvseries
+-- sdb1 /mnt/tvseries2
+
 local diskhome = wibox.widget {
     max_value           = 100,
     value               = 0.33,
-    forced_height       = 10,
-    forced_width        = 30,
+    forced_width        = 50,
     --shape             = gears.shape.rounded_bar,
     border_width        = 1,
     border_color        = '#338877',
@@ -120,12 +181,12 @@ watch(
     collectgarbage('collect')
   end
 )
-local disklabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">TO / H</span>')
+local diskhomelabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">HOME</span>')
+
 local disktorrent = wibox.widget {
     max_value           = 100,
     value               = 0.33,
-    forced_height       = 10,
-    forced_width        = 30,
+    forced_width        = 50,
     --shape             = gears.shape.rounded_bar,
     border_width        = 1,
     border_color        = '#3377cc',
@@ -142,6 +203,29 @@ watch(
     collectgarbage('collect')
   end
 )
+local disktorrentlabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">TORR</span>')
+
+local disktv = wibox.widget {
+    max_value           = 100,
+    value               = 0.33,
+    forced_width        = 50,
+    --shape             = gears.shape.rounded_bar,
+    border_width        = 1,
+    border_color        = '#3377cc',
+    color               = '#4488bb',
+    background_color    = '#223344',
+    widget              = wibox.widget.progressbar,
+}
+watch(
+  [[bash -c "df -h /mnt/tvseries|grep '^/' | awk '{print $5}'"]],
+  60,
+  function(_, stdout)
+    local space_consumed = stdout:match('(%d+)')
+    disktv:set_value(tonumber(space_consumed))
+    collectgarbage('collect')
+  end
+)
+local disktvlabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">TV1</span>')
 
 -- Create an imagebox widget which will contains an icon indicating which layout we're using.
 -- We need one layoutbox per screen.
@@ -223,25 +307,25 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-        {
-            wibox.container.margin (cpuload,0,3,7,2),
-            wibox.container.margin (tempload,0,3,7,2),
-            wibox.container.margin (memload,0,0,7,2),
-            layout = wibox.layout.align.horizontal,
-        },
-        {
-            disklabel,
-            wibox.container.margin (disktorrent,5,5,0,0),
-            diskhome,
-            layout = wibox.layout.align.horizontal,
-        },
-        forced_num_cols = 1,
-        forced_num_rows = 1,
-        homogeneous     = false,
-        expand          = false,
-        width           = 500,
-        layout = wibox.layout.grid
+            wibox.container.margin (cpuload,0,5,7,2),
+            wibox.container.margin (tempload,0,5,7,2),
+            wibox.container.margin (memload,0,10,7,2),
+            layout = wibox.layout.fixed.horizontal,
       },
+      {
+            wibox.container.margin (diskhomelabel,10,0,7,2),
+            wibox.container.margin (diskhome,5,5,15,10),
+            wibox.container.margin (disktorrentlabel,0,5,7,2),
+            wibox.container.margin (disktorrent,5,5,15,10),
+            wibox.container.margin (disktvlabel,0,10,7,2),
+            wibox.container.margin (disktv,0,5,15,10),
+            layout = wibox.layout.fixed.horizontal,
+      },
+      wibox.container.margin (tv,15,3,9,7),
+      wibox.container.margin (tvaudio,0,13,9,7),
+      wibox.container.margin (pc,0,3,9,7),
+      wibox.container.margin (awesome_restart,0,3,9,7),
+      pulse,
       clock_widget,
       -- Layout box
       LayoutBox(s)
