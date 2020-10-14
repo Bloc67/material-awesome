@@ -2,7 +2,7 @@ local awful = require('awful')
 local gears = require('gears')
 local beautiful = require('beautiful')
 
-beautiful.useless_gap = 0
+--beautiful.useless_gap = 0
 
 local function renderClient(client, mode)
   if client.skip_decoration or (client.rendering_mode == mode) then
@@ -106,3 +106,5 @@ _G.client.connect_signal(
 _G.tag.connect_signal('property::selected', tagCallback)
 
 _G.tag.connect_signal('property::layout', tagCallback)
+
+beautiful.useless_gap = 5

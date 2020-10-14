@@ -26,7 +26,7 @@ return {
   run_on_start_up = {
     'compton --config ' .. filesystem.get_configuration_dir() .. '/configuration/compton.conf',
     --'nm-applet --indicator', -- wifi
-    'pulseeffects', -- audiocontrol
+    --'pulseeffects', -- audiocontrol
     --'blueberry-tray', -- Bluetooth tray icon
     'numlockx on', -- enable numlock
     '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg)', -- credential manager

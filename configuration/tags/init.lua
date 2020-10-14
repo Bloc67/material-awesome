@@ -19,7 +19,7 @@ local tags = {
   {
     icon = icons.chrome,
     type = 'browser',
-    defaultApp = 'brave',
+    defaultApp = 'brave-browser',
     screen = 1
   },
   {
@@ -49,13 +49,13 @@ local tags = {
   {
     icon = icons.memory,
     type = 'gimp',
-    defaultApp = 'gimp',
+    defaultApp = apps.default.rofi,
     screen = 1
   },
   {
     icon = icons.music,
     type = 'music',
-    defaultApp = apps.default.music,
+    defaultApp = apps.default.rofi,
     screen = 1
   }
 }

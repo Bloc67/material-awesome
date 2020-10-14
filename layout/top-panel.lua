@@ -56,11 +56,12 @@ add_button:buttons(
 -- pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
 -- awful.key({modkey, 'Control'}, 'r', _G.awesome.restart, {description = 'reload awesome', group = 'awesome'}),
 
-local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal"
+local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo"
+local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo"
 
-local do_hdmi_audio = "pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo"
+local do_pulse = "nohup pulseeffects &"
 
-local do_stereo = "pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off"
+
 local awesome_restart = awesomebuttons.with_icon{ 
     icon = 'refresh-cw',
     type = 'outline', 
@@ -69,7 +70,7 @@ local awesome_restart = awesomebuttons.with_icon{
     border = 2,
     color = 'teal' ,
     shape = 'circle',
-    onclick = _G.awesome.restart 
+    restart = 1 
 }
 local tv = awesomebuttons.with_icon{ 
     icon = 'film',
@@ -82,15 +83,15 @@ local tv = awesomebuttons.with_icon{
     onclick = do_hdmi,
     restart = 1 
 }
-local tvaudio = awesomebuttons.with_icon{ 
-    icon = 'film',
+local mypulse = awesomebuttons.with_icon{ 
+    icon = 'headphones',
     type = 'outline', 
     margins = 8,
     size = 15,
     border = 2,
     color = 'steelblue' ,
     shape = 'circle',
-    onclick = do_hdmi_audio,
+    onclick = do_pulse,
 }
 local pc = awesomebuttons.with_icon{ 
     icon = 'tv',
@@ -164,7 +165,7 @@ watch(
 local diskhome = wibox.widget {
     max_value           = 100,
     value               = 0.33,
-    forced_width        = 50,
+    forced_width        = 30,
     --shape             = gears.shape.rounded_bar,
     border_width        = 1,
     border_color        = '#338877',
@@ -186,7 +187,7 @@ local diskhomelabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">HO
 local disktorrent = wibox.widget {
     max_value           = 100,
     value               = 0.33,
-    forced_width        = 50,
+    forced_width        = 30,
     --shape             = gears.shape.rounded_bar,
     border_width        = 1,
     border_color        = '#3377cc',
@@ -208,7 +209,7 @@ local disktorrentlabel = wibox.widget.textbox('<span font="Roboto Mono normal 6"
 local disktv = wibox.widget {
     max_value           = 100,
     value               = 0.33,
-    forced_width        = 50,
+    forced_width        = 30,
     --shape             = gears.shape.rounded_bar,
     border_width        = 1,
     border_color        = '#3377cc',
@@ -314,16 +315,16 @@ local TopPanel = function(s, offset)
       },
       {
             wibox.container.margin (diskhomelabel,10,0,7,2),
-            wibox.container.margin (diskhome,5,5,15,10),
+            wibox.container.margin (diskhome,5,5,20,15),
             wibox.container.margin (disktorrentlabel,0,5,7,2),
-            wibox.container.margin (disktorrent,5,5,15,10),
+            wibox.container.margin (disktorrent,5,5,20,15),
             wibox.container.margin (disktvlabel,0,10,7,2),
-            wibox.container.margin (disktv,0,5,15,10),
+            wibox.container.margin (disktv,0,5,20,15),
             layout = wibox.layout.fixed.horizontal,
       },
       wibox.container.margin (tv,15,3,9,7),
-      wibox.container.margin (tvaudio,0,13,9,7),
-      wibox.container.margin (pc,0,3,9,7),
+      wibox.container.margin (pc,0,13,9,7),
+      wibox.container.margin (mypulse,0,3,9,7),
       wibox.container.margin (awesome_restart,0,3,9,7),
       pulse,
       clock_widget,
