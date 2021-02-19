@@ -52,11 +52,14 @@ add_button:buttons(
 
 -- my buttons
 
--- pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo
--- pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo
--- awful.key({modkey, 'Control'}, 'r', _G.awesome.restart, {description = 'reload awesome', group = 'awesome'}),
+-- if they change: pacmd list-sources | grep -e 'index:' -e device.string -e 'name:'
 
+
+--local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo-extral"
+--local do_hdmi = "pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo"
 local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo"
+--local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo"
+--local do_stereo = "pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo"
 local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo"
 
 local do_pulse = "nohup pulseeffects &"
@@ -112,7 +115,7 @@ local idle_prev = 0
 local cpuload = wibox.widget.textbox()
 watch(
   [[bash -c "cat /proc/stat | grep '^cpu '"]],
-  5,
+  2,
   function(_, stdout)
     local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
       stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
@@ -135,7 +138,7 @@ local max_temp = 80
 local tempload = wibox.widget.textbox()
 watch(
   'bash -c "cat /sys/class/thermal/thermal_zone0/temp"',
-  10,
+  3,
   function(_, stdout)
     local temp = stdout:match('(%d+)')
     tempload.markup = '<span color="#e0e0e0">' .. math.ceil((temp / 1000) / max_temp * 100) .. "° " .. '</span>'
@@ -146,7 +149,7 @@ watch(
 local memload = wibox.widget.textbox()
 watch(
   'bash -c "free | grep -z Mem.*Swap.*"',
-  30,
+  10,
   function(_, stdout)
     local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
@@ -174,7 +177,7 @@ local diskhome = wibox.widget {
     widget              = wibox.widget.progressbar,
 }
 watch(
-  [[bash -c "df -h /home|grep '^/' | awk '{print $5}'"]],
+  [[bash -c "df -h /home | grep '^/' | awk '{print $5}'"]],
   60,
   function(_, stdout)
     local space_consumed = stdout:match('(%d+)')
@@ -196,7 +199,7 @@ local disktorrent = wibox.widget {
     widget              = wibox.widget.progressbar,
 }
 watch(
-  [[bash -c "df -h /mnt/Torrents|grep '^/' | awk '{print $5}'"]],
+  [[bash -c "df -h /mnt/Torrents | grep '^/' | awk '{print $5}'"]],
   60,
   function(_, stdout)
     local space_consumed = stdout:match('(%d+)')
@@ -218,7 +221,7 @@ local disktv = wibox.widget {
     widget              = wibox.widget.progressbar,
 }
 watch(
-  [[bash -c "df -h /mnt/tvseries|grep '^/' | awk '{print $5}'"]],
+  [[bash -c "df -h /mnt/tvseries | grep '^/' | awk '{print $5}'"]],
   60,
   function(_, stdout)
     local space_consumed = stdout:match('(%d+)')
@@ -227,6 +230,73 @@ watch(
   end
 )
 local disktvlabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">TV1</span>')
+
+local disktv2 = wibox.widget {
+    max_value           = 100,
+    value               = 0.33,
+    forced_width        = 30,
+    --shape             = gears.shape.rounded_bar,
+    border_width        = 1,
+    border_color        = '#3377cc',
+    color               = '#4488bb',
+    background_color    = '#223344',
+    widget              = wibox.widget.progressbar,
+}
+watch(
+  [[bash -c "df -h /mnt/tvseries2 | grep '^/' | awk '{print $5}'"]],
+  60,
+  function(_, stdout)
+    local space_consumed = stdout:match('(%d+)')
+    disktv2:set_value(tonumber(space_consumed))
+    collectgarbage('collect')
+  end
+)
+local disktv2label = wibox.widget.textbox('<span font="Roboto Mono normal 6">TV2</span>')
+
+
+local diskdbox = wibox.widget {
+    max_value           = 100,
+    value               = 0.33,
+    forced_width        = 30,
+    --shape             = gears.shape.rounded_bar,
+    border_width        = 1,
+    border_color        = '#3377cc',
+    color               = '#4488bb',
+    background_color    = '#223344',
+    widget              = wibox.widget.progressbar,
+}
+watch(
+  [[bash -c "df -h /mnt/DBox | grep '^/' | awk '{print $5}'"]],
+  60,
+  function(_, stdout)
+    local space_consumed = stdout:match('(%d+)')
+    diskdbox:set_value(tonumber(space_consumed))
+    collectgarbage('collect')
+  end
+)
+local diskdboxlabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">DBOX</span>')
+
+local diskfam = wibox.widget {
+    max_value           = 100,
+    value               = 0.33,
+    forced_width        = 30,
+    --shape             = gears.shape.rounded_bar,
+    border_width        = 1,
+    border_color        = '#3377cc',
+    color               = '#4488bb',
+    background_color    = '#223344',
+    widget              = wibox.widget.progressbar,
+}
+watch(
+  [[bash -c "df -h /mnt/1TB-data | grep '^/' | awk '{print $5}'"]],
+  60,
+  function(_, stdout)
+    local space_consumed = stdout:match('(%d+)')
+    diskfam:set_value(tonumber(space_consumed))
+    collectgarbage('collect')
+  end
+)
+local diskfamlabel = wibox.widget.textbox('<span font="Roboto Mono normal 6">FAM</span>')
 
 -- Create an imagebox widget which will contains an icon indicating which layout we're using.
 -- We need one layoutbox per screen.
@@ -243,23 +313,65 @@ local LayoutBox = function(s)
       ),
       awful.button(
         {},
+        2,
+        function()
+          awful.layout.inc(2)
+        end
+      ),
+      awful.button(
+        {},
         3,
         function()
-          awful.layout.inc(-1)
+          awful.layout.inc(3)
         end
       ),
       awful.button(
         {},
         4,
         function()
-          awful.layout.inc(1)
+          awful.layout.inc(4)
         end
       ),
       awful.button(
         {},
         5,
         function()
-          awful.layout.inc(-1)
+          awful.layout.inc(5)
+        end
+      ),
+      awful.button(
+        {},
+        6,
+        function()
+          awful.layout.inc(6)
+        end
+      ),
+      awful.button(
+        {},
+        7,
+        function()
+          awful.layout.inc(7)
+        end
+      ),
+      awful.button(
+        {},
+        8,
+        function()
+          awful.layout.inc(8)
+        end
+      ),
+      awful.button(
+        {},
+        9,
+        function()
+          awful.layout.inc(9)
+        end
+      ),
+      awful.button(
+        {},
+        10,
+        function()
+          awful.layout.inc(10)
         end
       )
     )
@@ -313,15 +425,21 @@ local TopPanel = function(s, offset)
             wibox.container.margin (memload,0,10,7,2),
             layout = wibox.layout.fixed.horizontal,
       },
-      {
-            wibox.container.margin (diskhomelabel,10,0,7,2),
-            wibox.container.margin (diskhome,5,5,20,15),
-            wibox.container.margin (disktorrentlabel,0,5,7,2),
-            wibox.container.margin (disktorrent,5,5,20,15),
-            wibox.container.margin (disktvlabel,0,10,7,2),
-            wibox.container.margin (disktv,0,5,20,15),
-            layout = wibox.layout.fixed.horizontal,
-      },
+--      {
+--            wibox.container.margin (diskhomelabel,10,0,7,2),
+--            wibox.container.margin (diskhome,5,5,20,15),
+--            wibox.container.margin (disktorrentlabel,0,5,7,2),
+--            wibox.container.margin (disktorrent,0,5,20,15),
+--            wibox.container.margin (disktvlabel,0,5,7,2),
+--            wibox.container.margin (disktv,0,5,20,15),
+--            wibox.container.margin (disktv2label,0,5,7,2),
+--            wibox.container.margin (disktv2,0,5,20,15),
+--            wibox.container.margin (diskdboxlabel,0,5,7,2),
+--            wibox.container.margin (diskdbox,0,5,20,15),
+--            wibox.container.margin (diskfamlabel,0,5,7,2),
+--            wibox.container.margin (diskfam,0,5,20,15),
+--            layout = wibox.layout.fixed.horizontal,
+--      },
       wibox.container.margin (tv,15,3,9,7),
       wibox.container.margin (pc,0,13,9,7),
       wibox.container.margin (mypulse,0,3,9,7),

@@ -1,3 +1,4 @@
+
 local gears = require('gears')
 local awful = require('awful')
 local wibox = require("wibox")
@@ -23,6 +24,9 @@ require('module.quake-terminal')
 require('configuration.client')
 require('configuration.tags')
 _G.root.keys(require('configuration.keys.global'))
+
+beautiful.gap_single_client  = false
+beautiful.useless_gap  = 1
 
 -- Create a wibox for each screen and add it
 awful.screen.connect_for_each_screen(
@@ -60,14 +64,14 @@ _G.client.connect_signal(
 )
 
 -- Enable sloppy focus, so that focus follows mouse.
---[[
+
 _G.client.connect_signal(
   'mouse::enter',
   function(c)
     c:emit_signal('request::activate', 'mouse_enter', {raise = true})
   end
 )
---]]
+
 
 -- Make the focused window have a glowing border
 _G.client.connect_signal(
@@ -83,4 +87,4 @@ _G.client.connect_signal(
   end
 )
 
-beautiful.useless_gap = 5
+

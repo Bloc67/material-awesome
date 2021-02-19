@@ -24,19 +24,19 @@ local tags = {
   },
   {
     icon = icons.code,
-    type = 'code',
-    defaultApp = 'xed',
+    type = 'any',
+    defaultApp = apps.default.rofi,
     screen = 1
   },
   {
     icon = icons.folder,
-    type = 'files',
-    defaultApp = 'nemo',
+    type = 'any',
+    defaultApp = apps.default.rofi,
     screen = 1
   },
   {
-    icon = icons.brightness,
-    type = 'media',
+    icon = icons.code,
+    type = 'any',
     defaultApp = apps.default.rofi,
     screen = 1
   },
@@ -48,8 +48,14 @@ local tags = {
   },
   {
     icon = icons.memory,
-    type = 'gimp',
+    type = 'any',
     defaultApp = apps.default.rofi,
+    screen = 1
+  },
+  {
+    icon = icons.forum,
+    type = 'any',
+    defaultApp = 'evolution',
     screen = 1
   },
   {
@@ -62,8 +68,15 @@ local tags = {
 
 awful.layout.layouts = {
   awful.layout.suit.tile,
-  awful.layout.suit.max
+  awful.layout.suit.max,
+  awful.layout.suit.fair.horizontal,
+  --awful.layout.suit.fair.v,
+  awful.layout.suit.magnifier
+  --awful.layout.suit.corner.nw,
   --awful.layout.suit.floating
+  --awful.layout.suit.spiral.dwindle,
+  --awful.layout.suit.tile.bottom,
+  --awful.layout.suit.tile.top
 }
 
 awful.screen.connect_for_each_screen(
@@ -76,7 +89,7 @@ awful.screen.connect_for_each_screen(
           icon_only = true,
           layout = awful.layout.suit.tile,
           gap_single_client = false,
-          gap = 2,
+          gap = 0,
           screen = s,
           defaultApp = tag.defaultApp,
           selected = i == 1
@@ -93,7 +106,7 @@ _G.tag.connect_signal(
     if (currentLayout == awful.layout.suit.max) then
       t.gap = 0
     else
-      t.gap = 4
+      t.gap = 0
     end
   end
 )
