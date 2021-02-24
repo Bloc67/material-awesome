@@ -442,8 +442,6 @@ local TopPanel = function(s, offset)
 --      },
       wibox.container.margin (tv,15,3,9,7),
       wibox.container.margin (pc,0,13,9,7),
-      wibox.container.margin (mypulse,0,3,9,7),
-      wibox.container.margin (awesome_restart,0,3,9,7),
       pulse,
       clock_widget,
       -- Layout box

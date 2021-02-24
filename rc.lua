@@ -5,6 +5,8 @@ local wibox = require("wibox")
 require('awful.autofocus')
 local beautiful = require('beautiful')
 
+--local lain = require("lain")
+
 -- Theme
 beautiful.init(require('theme'))
 
