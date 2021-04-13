@@ -1,20 +1,17 @@
 ## Material and Mouse driven theme for [AwesomeWM 4.3](https://awesomewm.org/)
-### Original work by ChrisTitusTech, which again was based off originally PapyElGringo's work.'
+### Original work by ChrisTitusTech, which again was based off PapyElGringo work.
 
 Note: This fork focuses on streamlining the orginal work by ChrisTitusTech(He has since released a newer design without the leftpanel which I didn't find as useful as the original). 
 
-### Changed features for this fork
+### Changed features
 
 * removed gaps between windows
-* make use of awesome-buttons library
-* only 2 layouts: tiled and maximised
+* made use of awesome-buttons library
+* only 2 layouts used: tiled and maximised
 * shadows behind windows and panels(using compton)
 
 
 An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) following the [Material Design guidelines](https://material.io) with a performant opiniated mouse/keyboard workflow to increase daily productivity and comfort.
-
-[![](./theme/PapyElGringo-theme/demo.gif?raw=true)](https://www.reddit.com/r/unixporn/comments/anp51q/awesome_material_awesome_workflow/)
-*[Click to view in high quality](https://www.reddit.com/r/unixporn/comments/anp51q/awesome_material_awesome_workflow/)*
 
 | Tiled         | Panel         | Exit screen   |
 |:-------------:|:-------------:|:-------------:|
