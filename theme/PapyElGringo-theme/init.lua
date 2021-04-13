@@ -11,7 +11,7 @@ theme.font = 'Roboto medium 10'
 
 -- Primary
 theme.primary = mat_colors.indigo
-theme.primary.hue_500 = '#003f6b'
+theme.primary.hue_500 = '#007fab'
 -- Accent
 theme.accent = mat_colors.pink
 
@@ -20,6 +20,7 @@ theme.background = mat_colors.blue_grey
 
 theme.background.hue_800 = '#192933'
 theme.background.hue_900 = '#121e25'
+
 
 local awesome_overrides = function(theme)
   --

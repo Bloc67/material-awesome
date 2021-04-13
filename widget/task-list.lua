@@ -4,6 +4,20 @@ local dpi = require('beautiful').xresources.apply_dpi
 local capi = {button = _G.button}
 local gears = require('gears')
 local clickable_container = require('widget.material.clickable-container')
+
+-- Used to unescape HTML entities, because set_markup_silently fails sometimes
+-- https://stackoverflow.com/questions/14899734/unescape-numeric-xml-entities-with-lua
+local entityMap  = {["lt"]="<",["gt"]=">",["amp"]="&",["quot"]='"',["apos"]="'"}
+local entitySwap = function(orig,n,s)
+  return (n=='' and entityMap[s])
+         or (n=="#" and tonumber(s)) and string.char(s)
+         or (n=="#x" and tonumber(s,16)) and string.char(tonumber(s,16))
+         or orig
+end
+function unescape(str)
+  return (string.gsub( str, '(&(#?x?)([%d%a]+);)', entitySwap ))
+end
+
 --- Common method to create buttons.
 -- @tab buttons
 -- @param object

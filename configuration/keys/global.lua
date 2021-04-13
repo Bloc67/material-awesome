@@ -10,13 +10,15 @@ local apps = require('configuration.apps')
 local globalKeys =
   awful.util.table.join(
   -- Hotkeys
-  awful.key({modkey}, 'F1', hotkeys_popup.show_help, {description = 'show help', group = 'awesome'}),
+  awful.key({modkey}, '1', hotkeys_popup.show_help, {description = 'show help', group = 'awesome'}),
   -- Tag browsing
   awful.key({modkey}, 'w', awful.tag.viewprev, {description = 'view previous', group = 'tag'}),
   awful.key({modkey}, 's', awful.tag.viewnext, {description = 'view next', group = 'tag'}),
   awful.key({altkey, 'Control'}, 'Up', awful.tag.viewprev, {description = 'view previous', group = 'tag'}),
   awful.key({altkey, 'Control'}, 'Down', awful.tag.viewnext, {description = 'view next', group = 'tag'}),
   awful.key({modkey}, 'Escape', awful.tag.history.restore, {description = 'go back', group = 'tag'}),
+
+
   -- Default client focus
   awful.key(
     {modkey},
@@ -215,28 +217,14 @@ local globalKeys =
     end,
     {description = 'select previous', group = 'layout'}
   ),
-  awful.key(
-    {modkey, 'Control'},
-    'n',
-    function()
-      local c = awful.client.restore()
-      -- Focus restored client
-      if c then
-        _G.client.focus = c
-        c:raise()
-      end
-    end,
-    {description = 'restore minimized', group = 'client'}
-  ),
+
   -- Dropdown application
-  awful.key(
-    {modkey},
-    'z',
+  --[[awful.key({}
     function()
       _G.toggle_quake()
     end,
     {description = 'dropdown application', group = 'launcher'}
-  ),
+  ),--]]
   -- Widgets popups
   --[[awful.key(
     {altkey},
@@ -308,6 +296,9 @@ local globalKeys =
     end,
     {description = 'toggle mute', group = 'hotkeys'}
   ),
+  awful.key({ }, "F11", function () awful.util.spawn("quodlibet --play-pause") end),
+  awful.key({ }, "F12", function () awful.util.spawn("audacious --next") end),
+  awful.key({ }, "F10 ", function () awful.util.spawn("audacious --previous") end),
   awful.key(
     {},
     'XF86PowerDown',
@@ -355,28 +346,12 @@ local globalKeys =
       awful.util.spawn_with_shell('vm-attach attach')
     end
   ),
-  -- Lutris hotkey
-  awful.key(
-    {modkey},
-    'g',
-    function()
-      awful.util.spawn_with_shell('lutris')
-    end
-  ),
   -- System Monitor hotkey
   awful.key(
     {modkey},
     'm',
     function()
       awful.util.spawn_with_shell('mate-system-monitor')
-    end
-  ),
-  -- Kill VLC
-  awful.key(
-    {modkey},
-    'v',
-    function()
-      awful.util.spawn_with_shell('killall -9 vlc')
     end
   ),
   -- File Manager
@@ -386,16 +361,7 @@ local globalKeys =
     function()
       awful.util.spawn(apps.default.files)
     end,
-    {description = 'filebrowser', group = 'hotkeys'}
-  ),
-  -- Emoji Picker
-  awful.key(
-    {modkey},
-    'a',
-    function()
-      awful.util.spawn_with_shell('ibus emoji')
-    end,
-    {description = 'Open the ibus emoji picker to copy an emoji to your clipboard', group = 'hotkeys'}
+    {description = 'Default File Manager launch', group = 'hotkeys'}
   )
 )
 

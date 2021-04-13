@@ -16,6 +16,15 @@ local clientKeys =
   ),
   awful.key(
     {modkey},
+    'n',
+    function(c)
+      c.minimized = not c.minimized
+      c:raise()
+    end,
+    {description = 'toggle minimize', group = 'client'}
+  ),
+  awful.key(
+    {modkey},
     'q',
     function(c)
       c:kill()
