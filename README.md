@@ -1,7 +1,7 @@
 ## Material and Mouse driven theme for [AwesomeWM 4.3](https://awesomewm.org/)
 ### Original work by ChrisTitusTech, which again was based off PapyElGringo work.
 
-Note: This fork focuses on streamlining the orginal work by ChrisTitusTech(He has since released a newer design without the leftpanel which I didn't find as useful as the original). 
+Note: This fork is an opionated version of the work by ChrisTitusTech. (He has since released a newer design without the leftpanel which I didn't find as useful as the original). 
 
 ### Changed features
 
