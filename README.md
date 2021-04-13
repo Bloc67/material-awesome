@@ -9,6 +9,7 @@ Note: This fork is an opionated version of the work by ChrisTitusTech. (He has s
 * made use of awesome-buttons library
 * only 2 layouts used: tiled and maximised
 * shadows behind windows and panels(using compton)
+* used awesome-buttons with some modifications
 
 
 An almost desktop environment made with [AwesomeWM](https://awesomewm.org/) following the [Material Design guidelines](https://material.io) with a performant opiniated mouse/keyboard workflow to increase daily productivity and comfort.

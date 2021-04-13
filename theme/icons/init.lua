@@ -10,6 +10,18 @@ return {
   game = dir .. '/google-controller.svg',
   lab = dir .. '/flask.svg',
   forum = dir .. '/forum.svg',
+
+  aa = dir .. '/tag-list/1.svg',
+  ab = dir .. '/tag-list/2.svg',
+  ac = dir .. '/tag-list/2.svg',
+  ad = dir .. '/tag-list/3.svg',
+  ae = dir .. '/tag-list/4.svg',
+  af = dir .. '/tag-list/5.svg',
+  ag = dir .. '/tag-list/6.svg',
+  ah = dir .. '/tag-list/7.svg',
+  ai = dir .. '/tag-list/8.svg',
+  aj = dir .. '/tag-list/9.svg',
+
   --others
   one = dir .. '/1.svg',
   two = dir .. '/2.svg',
