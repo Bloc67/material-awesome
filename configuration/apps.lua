@@ -19,13 +19,13 @@ return {
     editor = 'xed', -- gui text editor
     social = 'discord',
     game = rofi_command,
-    files = 'thunar',
+    files = 'nemo',
     music = 'audacious' 
   },
   -- List of apps to start once on start-up
   run_on_start_up = {
     'compton --config ' .. filesystem.get_configuration_dir() .. '/configuration/compton.conf',
-    --'nm-applet --indicator', -- wifi
+    'nm-applet --indicator', -- wifi
     --'pulseeffects', -- audiocontrol
     --'blueberry-tray', -- Bluetooth tray icon
     'numlockx on', -- enable numlock
