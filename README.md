@@ -18,7 +18,7 @@ wget -qO- https://git.io/papirus-icon-theme-install | sh
 #### Arch-Based
 
 ```
-yay -S awesome rofi i3lock-fancy xclip ttf-roboto materia-gtk-theme lxappearance pnmixer network-manager-applet xfce4-power-manager -y
+yay -S awesome rofi i3lock-fancy xclip ttf-roboto materia-gtk-theme lxappearance pnmixer xfce4-power-manager -y
 wget -qO- https://git.io/papirus-icon-theme-install | sh
 ```
 
