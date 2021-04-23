@@ -5,7 +5,7 @@ local apps = require('configuration.apps')
 
 local tags = {
   {
-    icon = icons.lab,
+    icon = icons.volume,
     type = 'any',
     defaultApp = apps.default.rofi,
     screen = 1
@@ -23,6 +23,12 @@ local tags = {
     screen = 1
   },
   {
+    icon = icons.chrome,
+    type = 'browser',
+    defaultApp = 'chromium',
+    screen = 1
+  },
+  {
     icon = icons.code,
     type = 'any',
     defaultApp = apps.default.rofi,
@@ -30,14 +36,8 @@ local tags = {
   },
   {
     icon = icons.folder,
-    type = 'any',
-    defaultApp = apps.default.rofi,
-    screen = 1
-  },
-  {
-    icon = icons.code,
-    type = 'any',
-    defaultApp = apps.default.rofi,
+    type = 'file',
+    defaultApp = 'nemo',
     screen = 1
   },
   {
@@ -65,7 +65,7 @@ local tags = {
     screen = 1
   },
   {
-    icon = icons.forum,
+    icon = icons.qb,
     type = 'any',
     defaultApp = apps.default.rofi,
     screen = 1

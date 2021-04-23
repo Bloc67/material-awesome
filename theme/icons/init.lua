@@ -10,6 +10,7 @@ return {
   game = dir .. '/google-controller.svg',
   lab = dir .. '/flask.svg',
   forum = dir .. '/forum.svg',
+  qb = dir .. '/qb.svg',
 
   aa = dir .. '/tag-list/1.svg',
   ab = dir .. '/tag-list/2.svg',
