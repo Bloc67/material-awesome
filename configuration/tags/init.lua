@@ -11,7 +11,7 @@ local tags = {
     screen = 1
   },
   {
-    icon = icons.film,
+    icon = icons.emby,
     type = 'windows',
     defaultApp = 'emby-theater',
     screen = 1

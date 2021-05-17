@@ -62,7 +62,7 @@ local awesome_overrides =
   -- Layout
 
   theme.layout_max = theme.icons .. 'layouts/arrow-expand-all.png'
-  theme.layout_tile = theme.icons .. 'layouts/view-quilt.png'
+  theme.layout_tile = theme.icons .. 'layouts/view-quilt48.png'
 
   -- Taglist
 

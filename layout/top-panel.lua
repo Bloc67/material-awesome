@@ -14,7 +14,7 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
-local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 9" color="#70e0f0"> %H:%M</span>')
+local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 12" color="#70e0f0"> %H:%M</span>')
 
 -- Add a calendar (credits to kylekewley for the original code)
 local month_calendar = awful.widget.calendar_popup.month({
@@ -240,6 +240,20 @@ local LayoutBox = function(s)
         10,
         function()
           awful.layout.inc(10)
+        end
+      ),
+      awful.button(
+        {},
+        11,
+        function()
+          awful.layout.inc(11)
+        end
+      ),
+      awful.button(
+        {},
+        12,
+        function()
+          awful.layout.inc(12)
         end
       )
     )

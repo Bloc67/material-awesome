@@ -297,8 +297,8 @@ local globalKeys =
     {description = 'toggle mute', group = 'hotkeys'}
   ),
   awful.key({ }, "F11", function () awful.util.spawn("quodlibet --play-pause") end),
-  awful.key({ }, "F12", function () awful.util.spawn("audacious --next") end),
-  awful.key({ }, "F10 ", function () awful.util.spawn("audacious --previous") end),
+  awful.key({ }, "F12", function () awful.util.spawn("quodlibet --next") end),
+  awful.key({ }, "F10 ", function () awful.util.spawn("quodlibet --previous") end),
   awful.key(
     {},
     'XF86PowerDown',

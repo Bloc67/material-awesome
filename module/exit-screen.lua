@@ -182,6 +182,9 @@ exit_screen:setup {
     nil,
     {
       -- {
+      poweroff,
+      reboot,
+      suspend,
       exit,
       lock,
       layout = wibox.layout.fixed.horizontal
