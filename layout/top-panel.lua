@@ -198,29 +198,8 @@ local LayoutBox = function(s)
         function()
           awful.layout.inc(9)
         end
-      ),
-      awful.button(
-        {},
-        10,
-        function()
-          awful.layout.inc(10)
-        end
-      ),
-      awful.button(
-        {},
-        11,
-        function()
-          awful.layout.inc(11)
-        end
-      ),
-      awful.button(
-        {},
-        12,
-        function()
-          awful.layout.inc(12)
-        end
       )
-    )
+     )
   )
   return layoutBox
 end
@@ -228,14 +207,14 @@ end
 local TopPanel = function(s, offset)
   local offsetx = 0
   if offset == true then
-    offsetx = dpi(36)
+    offsetx = dpi(32)
   end
   local panel =
     wibox(
     {
       ontop = true,
       screen = s,
-      height = dpi(28),
+      height = dpi(32),
       width = s.geometry.width - offsetx,
       x = s.geometry.x + offsetx,
       y = s.geometry.y,
@@ -250,7 +229,7 @@ local TopPanel = function(s, offset)
 
   panel:struts(
     {
-      top = dpi(28)
+      top = dpi(32)
     }
   )
 

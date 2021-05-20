@@ -27,7 +27,7 @@ return function(screen, panel, action_bar_width)
   local clock_widget = wibox.container.margin(textclock, dpi(13), dpi(13), dpi(8), dpi(8))
   local systray = wibox.widget.systray()
   systray:set_horizontal(false)
-  systray:set_base_size(24)
+  systray:set_base_size(16)
 
   local menu_icon =
     wibox.widget {
@@ -89,7 +89,7 @@ return function(screen, panel, action_bar_width)
     {
       -- Right widgets
       layout = wibox.layout.fixed.vertical,
-      wibox.container.margin(systray, dpi(4), dpi(4)),
+      wibox.container.margin(systray, dpi(8), dpi(8)),
       --require('widget.package-updater'),
       --require('widget.wifi'),
       require('widget.battery'),

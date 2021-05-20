@@ -52,38 +52,39 @@ local awesome_overrides =
   theme.menu_width = dpi(160)
 
   -- Tooltips
-  theme.tooltip_bg = '#232323'
+  theme.tooltip_bg = '#000000'
   --theme.tooltip_border_color = '#232323'
-  theme.tooltip_border_width = 0
+  theme.tooltip_border_width = 2
   theme.tooltip_shape = function(cr, w, h)
-    gears.shape.rounded_rect(cr, w, h, dpi(6))
+    gears.shape.rounded_rect(cr, w, h, dpi(2))
   end
 
   -- Layout
 
   theme.layout_max = theme.icons .. 'layouts/arrow-expand-all.png'
-  theme.layout_tile = theme.icons .. 'layouts/view-quilt48.png'
+  theme.layout_tile = theme.icons .. 'layouts/view-quilt.png'
 
   -- Taglist
 
+  theme.taglist_font = 'Roboto medium 11'
   theme.taglist_bg_empty = theme.background.hue_800
-  theme.taglist_bg_occupied = theme.background.hue_800
+  theme.taglist_bg_occupied = theme.background.hue_900
   theme.taglist_bg_urgent =
     'linear:0,0:' ..
-    dpi(48) ..
+    dpi(32) ..
       ',0:0,' ..
         theme.accent.hue_500 ..
           ':0.08,' .. theme.accent.hue_500 .. ':0.08,' .. theme.background.hue_800 .. ':1,' .. theme.background.hue_800
   theme.taglist_bg_focus =
     'linear:0,0:' ..
-    dpi(48) ..
+    dpi(32) ..
       ',0:0,' ..
         theme.primary.hue_500 ..
           ':0.08,' .. theme.primary.hue_500 .. ':0.08,' .. theme.background.hue_800 .. ':1,' .. theme.background.hue_800
 
   -- Tasklist
 
-  theme.tasklist_font = 'Roboto medium 11'
+  theme.tasklist_font = 'Roboto medium 10'
   theme.tasklist_bg_normal = theme.background.hue_800
   theme.tasklist_bg_focus =
     'linear:0,0:0,' ..

@@ -57,24 +57,6 @@ local tags = {
     type = 'any',
     defaultApp = apps.default.rofi,
     screen = 1
-  },
-  {
-    icon = icons.picture,
-    type = 'any',
-    defaultApp = apps.default.rofi,
-    screen = 1
-  },
-  {
-    icon = icons.qb,
-    type = 'any',
-    defaultApp = apps.default.rofi,
-    screen = 1
-  },
-  {
-    icon = icons.music,
-    type = 'music',
-    defaultApp = apps.default.rofi,
-    screen = 1
   }
 }
 
