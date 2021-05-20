@@ -14,7 +14,7 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
-local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 12" color="#70e0f0"> %H:%M</span>')
+local textclock = wibox.widget.textclock('<span font="Roboto Mono Normal 9">%d.%m.%Y   </span> <span font="Roboto Mono Bold 9">%H:%M</span>')
 
 -- Add a calendar (credits to kylekewley for the original code)
 local month_calendar = awful.widget.calendar_popup.month({
@@ -52,25 +52,19 @@ add_button:buttons(
 local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo"
 local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo"
 
-local tv = awesomebuttons.with_icon{ 
-    icon = 'film',
-    type = 'outline', 
-    margins = 8,
-    size = 15,
-    border = 2,
-    color = 'olive' ,
-    shape = 'circle',
+local tv = awesomebuttons.with_text{ 
+    margins = 0,
+    text_size = 10,
+    text = 'TV',
+    color = 'olive',
     onclick = do_hdmi,
     restart = 1 
 }
-local pc = awesomebuttons.with_icon{ 
-    icon = 'tv',
-    type = 'outline', 
-    margins = 8,
-    size = 15,
-    border = 2,
+local pc = awesomebuttons.with_text{ 
+    margins = 0,
+    text_size = 10,
+    text = 'PC',
     color = 'grey' ,
-    shape = 'circle',
     onclick = do_stereo,
     restart = 1 
 }
@@ -108,36 +102,6 @@ watch(
   function(_, stdout)
     local temp = tonumber(stdout)
     tempload0.markup = '<span color="#406050">CPU: </span><span color="#e0e0e0">' .. temp .. "°" .. '</span>'
-    collectgarbage('collect')
-  end
-)
-local tempload1 = wibox.widget.textbox()
-watch(
-  'bash -c "sensors | grep Core\\ 1 | cut -c17-18"',
-  15,
-  function(_, stdout)
-    local temp = tonumber(stdout)
-    tempload1.markup = '<span color="#e0e0e0">' .. temp .. "°" .. '</span>'
-    collectgarbage('collect')
-  end
-)
-local tempload2 = wibox.widget.textbox()
-watch(
-  'bash -c "sensors | grep Core\\ 2 | cut -c17-18"',
-  15,
-  function(_, stdout)
-    local temp = tonumber(stdout)
-    tempload2.markup = '<span color="#e0e0e0">' .. temp .. "°" .. '</span>'
-    collectgarbage('collect')
-  end
-)
-local tempload3 = wibox.widget.textbox()
-watch(
-  'bash -c "sensors | grep Core\\ 3 | cut -c17-18"',
-  15,
-  function(_, stdout)
-    local temp = tonumber(stdout)
-    tempload3.markup = '<span color="#e0e0e0">' .. temp .. "°" .. '</span>'
     collectgarbage('collect')
   end
 )
@@ -271,7 +235,7 @@ local TopPanel = function(s, offset)
     {
       ontop = true,
       screen = s,
-      height = dpi(48),
+      height = dpi(28),
       width = s.geometry.width - offsetx,
       x = s.geometry.x + offsetx,
       y = s.geometry.y,
@@ -279,14 +243,14 @@ local TopPanel = function(s, offset)
       bg = beautiful.background.hue_800,
       fg = beautiful.fg_normal,
       struts = {
-        top = dpi(48)
+        top = dpi(28)
       }
     }
   )
 
   panel:struts(
     {
-      top = dpi(48)
+      top = dpi(28)
     }
   )
 
@@ -295,6 +259,7 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       -- Create a taglist widget
+--      TagList(s),
       TaskList(s),
       add_button
     },
@@ -302,18 +267,15 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (cpuload,0,5,7,2),
-            wibox.container.margin (temploadq,0,5,7,2),
-            wibox.container.margin (tempload0,0,5,7,2),
-            wibox.container.margin (tempload1,0,5,7,2),
-            wibox.container.margin (tempload2,0,5,7,2),
-            wibox.container.margin (tempload3,0,5,7,2),
-            wibox.container.margin (memload,0,10,7,2),
+            wibox.container.margin (cpuload,0,5,0,0),
+            wibox.container.margin (temploadq,0,5,0,0),
+            wibox.container.margin (tempload0,0,5,0,0),
+            wibox.container.margin (memload,0,10,0,0),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv,5,3,9,7),
-      wibox.container.margin (pc,0,5,9,7),
-      wibox.container.margin (clock_widget,0,5,13,7),
+      wibox.container.margin (tv,0,8,0,0),
+      wibox.container.margin (pc,0,0,0,0),
+      wibox.container.margin (clock_widget,0,5,0,0),
       -- Layout box
       LayoutBox(s)
     }

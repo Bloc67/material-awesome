@@ -94,7 +94,7 @@ buttons.with_text = function(args)
                 markup = '<span size="' .. text_size .. '000" foreground="' .. ((type == 'flat') and '#00000000' or color) .. '">' .. text ..'</span>',
                 widget = wibox.widget.textbox
             },
-            top = 4, bottom = 4, left = 8, right = 8,
+            top = 0, bottom = 0, left = 0, right = 0,
             widget = wibox.container.margin
         },
         bg = '#00000000',
@@ -102,13 +102,6 @@ buttons.with_text = function(args)
         widget = wibox.container.background
 
     }
-
-    if type == 'outline' then
-        result:set_shape_border_color(color)
-        result:set_shape_border_width(1)
-    elseif type == 'flat' then
-        result:set_bg(color)
-    end
 
     local old_cursor, old_wibox
     result:connect_signal("mouse::enter", function(c)

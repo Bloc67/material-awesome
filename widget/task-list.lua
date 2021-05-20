@@ -70,14 +70,14 @@ local function list_update(w, buttons, label, data, objects)
         clickable_container(
         wibox.container.margin(
           wibox.widget.imagebox(os.getenv('HOME') .. '/.config/awesome/theme/icons/tag-list/tag/close.png'),
-          4,
-          4,
-          4,
-          4
+          0,
+          0,
+          2,
+          0
         )
       )
       cb.shape = gears.shape.circle
-      cbm = wibox.container.margin(cb, dpi(4), dpi(8), dpi(12), dpi(12))
+      cbm = wibox.container.margin(cb, dpi(6), dpi(10), dpi(8), dpi(8))
       cbm:buttons(
         gears.table.join(
           awful.button(
@@ -92,8 +92,8 @@ local function list_update(w, buttons, label, data, objects)
       )
       bg_clickable = clickable_container()
       bgb = wibox.container.background()
-      tbm = wibox.container.margin(tb, dpi(4), dpi(4))
-      ibm = wibox.container.margin(ib, dpi(12), dpi(12), dpi(12), dpi(12))
+      tbm = wibox.container.margin(tb, dpi(8), dpi(0))
+      ibm = wibox.container.margin(ib, dpi(0), dpi(0), dpi(8), dpi(8))
       l = wibox.layout.fixed.horizontal()
       ll = wibox.layout.fixed.horizontal()
 
