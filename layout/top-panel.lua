@@ -228,7 +228,7 @@ end
 local TopPanel = function(s, offset)
   local offsetx = 0
   if offset == true then
-    offsetx = dpi(48)
+    offsetx = dpi(36)
   end
   local panel =
     wibox(

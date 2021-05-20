@@ -72,7 +72,7 @@ local function list_update(w, buttons, label, data, objects)
           wibox.widget.imagebox(os.getenv('HOME') .. '/.config/awesome/theme/icons/tag-list/tag/close.png'),
           0,
           0,
-          2,
+          0,
           0
         )
       )
@@ -93,7 +93,7 @@ local function list_update(w, buttons, label, data, objects)
       bg_clickable = clickable_container()
       bgb = wibox.container.background()
       tbm = wibox.container.margin(tb, dpi(8), dpi(0))
-      ibm = wibox.container.margin(ib, dpi(0), dpi(0), dpi(8), dpi(8))
+      ibm = wibox.container.margin(ib, dpi(8), dpi(0), dpi(8), dpi(8))
       l = wibox.layout.fixed.horizontal()
       ll = wibox.layout.fixed.horizontal()
 

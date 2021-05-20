@@ -16,7 +16,7 @@ return function(_, panel)
     },
     wibox.widget {
       text = 'Search Applications',
-      font = 'Roboto medium 13',
+      font = 'Roboto medium 11',
       widget = wibox.widget.textbox
     },
     clickable = true,
@@ -44,7 +44,7 @@ return function(_, panel)
     },
     wibox.widget {
       text = 'End work session',
-      font = 'Roboto medium 13',
+      font = 'Roboto medium 11',
       widget = wibox.widget.textbox
     },
     clickable = true,

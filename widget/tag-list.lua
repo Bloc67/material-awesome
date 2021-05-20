@@ -49,11 +49,12 @@ local function list_update(w, buttons, label, data, objects)
       tbm = cache.tbm
       ibm = cache.ibm
     else
-      ib = wibox.widget.imagebox()
+      --ib = wibox.widget.imagebox()
+      ib = wibox.widget.textbox()
       tb = wibox.widget.textbox()
       bgb = wibox.container.background()
-      tbm = wibox.container.margin(tb, dpi(4), dpi(16))
-      ibm = wibox.container.margin(ib, dpi(12), dpi(12), dpi(12), dpi(12))
+      tbm = wibox.container.margin(tb, dpi(4), dpi(4))
+      ibm = wibox.container.margin(ib, dpi(12), dpi(4), dpi(4), dpi(4))
       l = wibox.layout.fixed.horizontal()
       bg_clickable = clickable_container()
 
@@ -94,10 +95,10 @@ local function list_update(w, buttons, label, data, objects)
       bg_image = bg_image(tb, o, nil, objects, i)
     end
     bgb:set_bgimage(bg_image)
-    if icon then
-      ib.image = icon
+    if text then
+      ib:set_markup('<span>' .. text .. '</span>')
     else
-      ibm:set_margins(0)
+        ibm:set_margins(0)
     end
 
     bgb.shape = args.shape
