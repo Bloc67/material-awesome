@@ -52,22 +52,22 @@ local awesome_overrides =
   theme.menu_width = dpi(160)
 
   -- Tooltips
-  theme.tooltip_bg = '#232323'
+  theme.tooltip_bg = '#000000'
   --theme.tooltip_border_color = '#232323'
   theme.tooltip_border_width = 0
   theme.tooltip_shape = function(cr, w, h)
-    gears.shape.rounded_rect(cr, w, h, dpi(6))
+    gears.shape.rounded_rect(cr, w, h, dpi(2))
   end
 
   -- Layout
 
   theme.layout_max = theme.icons .. 'layouts/arrow-expand-all.png'
-  theme.layout_tile = theme.icons .. 'layouts/view-quilt48.png'
+  theme.layout_tile = theme.icons .. 'layouts/view-quilt.png'
 
   -- Taglist
 
   theme.taglist_bg_empty = theme.background.hue_800
-  theme.taglist_bg_occupied = theme.background.hue_800
+  theme.taglist_bg_occupied = theme.background.hue_900
   theme.taglist_bg_urgent =
     'linear:0,0:' ..
     dpi(48) ..
@@ -84,7 +84,7 @@ local awesome_overrides =
   -- Tasklist
 
   theme.tasklist_font = 'Roboto medium 11'
-  theme.tasklist_bg_normal = theme.background.hue_800
+  theme.tasklist_bg_normal = theme.background.hue_900
   theme.tasklist_bg_focus =
     'linear:0,0:0,' ..
     dpi(48) ..
@@ -92,9 +92,9 @@ local awesome_overrides =
         theme.background.hue_800 ..
           ':0.95,' .. theme.background.hue_800 .. ':0.95,' .. theme.fg_normal .. ':1,' .. theme.fg_normal
   theme.tasklist_bg_urgent = theme.primary.hue_800
-  theme.tasklist_fg_focus = '#DDDDDD'
+  theme.tasklist_fg_focus = '#88bbDD'
   theme.tasklist_fg_urgent = theme.fg_normal
-  theme.tasklist_fg_normal = '#AAAAAA'
+  theme.tasklist_fg_normal = '#777777'
 
   theme.icon_theme = 'Papirus-Dark'
 
