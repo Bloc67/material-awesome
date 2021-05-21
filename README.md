@@ -1,11 +1,3 @@
-## Changed features
-
-* removed gaps between windows
-* made use of awesome-buttons library
-* only 2 layouts used: tiled and maximised
-* shadows behind windows and panels(using compton)
-* exit panel use only exit and lock(to always get to the LightDM login screen)
-
 ### Debian-Based
 
 ```
