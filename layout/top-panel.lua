@@ -56,7 +56,7 @@ local tv = awesomebuttons.with_icon{
     icon = 'film',
     type = 'outline', 
     margins = 8,
-    size = 15,
+    size = 13,
     border = 2,
     color = 'olive' ,
     shape = 'circle',
@@ -67,7 +67,7 @@ local pc = awesomebuttons.with_icon{
     icon = 'tv',
     type = 'outline', 
     margins = 8,
-    size = 15,
+    size = 13,
     border = 2,
     color = 'grey' ,
     shape = 'circle',
@@ -311,8 +311,8 @@ local TopPanel = function(s, offset)
             wibox.container.margin (memload,0,10,7,2),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv,5,3,9,7),
-      wibox.container.margin (pc,0,5,9,7),
+      wibox.container.margin (tv,5,3,9,9),
+      wibox.container.margin (pc,0,5,9,9),
       wibox.container.margin (clock_widget,0,5,13,7),
       -- Layout box
       LayoutBox(s)
