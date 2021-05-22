@@ -92,7 +92,7 @@ watch(
     local diff_total = total - total_prev
     local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
-    cpuload.markup = '<span color="#406050">LOAD: </span><span color="#e080a0">' .. math.ceil(diff_usage) .. "% " .. '</span>'
+    cpuload.markup = '<span color="#808080">' .. math.ceil(diff_usage) .. "% " .. '</span>'
 
     total_prev = total
     idle_prev = idle
@@ -107,7 +107,7 @@ watch(
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    tempload0.markup = '<span color="#406050">CPU: </span><span color="#e0e0e0">' .. temp .. "°" .. '</span>'
+    tempload0.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
     collectgarbage('collect')
   end
 )
@@ -117,7 +117,7 @@ watch(
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    tempload1.markup = '<span color="#e0e0e0">' .. temp .. "°" .. '</span>'
+    tempload1.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
     collectgarbage('collect')
   end
 )
@@ -127,7 +127,7 @@ watch(
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    tempload2.markup = '<span color="#e0e0e0">' .. temp .. "°" .. '</span>'
+    tempload2.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
     collectgarbage('collect')
   end
 )
@@ -137,7 +137,7 @@ watch(
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    tempload3.markup = '<span color="#e0e0e0">' .. temp .. "°" .. '</span>'
+    tempload3.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
     collectgarbage('collect')
   end
 )
@@ -147,7 +147,7 @@ watch(
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    temploadq.markup = '<span color="#406050">GPU: </span><span color="#e0e0e0">' .. temp .. "°" .. '</span>'
+    temploadq.markup = '<span color="#707070">' .. temp .. "°" .. '</span>'
     collectgarbage('collect')
   end
 )
@@ -161,7 +161,7 @@ watch(
   function(_, stdout)
     local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
-    memload.markup = '<span color="#406050"> MEM: </span><span color="#90b0d0">' .. math.ceil(used / total * 100) .. '%</span>' 
+    memload.markup = '<span color="#606060">' .. math.ceil(used / total * 28) .. '/28GB</span>' 
     collectgarbage('collect')
   end
 )
