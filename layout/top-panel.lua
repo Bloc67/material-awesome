@@ -14,17 +14,17 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
-local textclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 9" color="#70e0f0"> %H:%M</span>')
+local mytextclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 9" color="#70e0f0"> %H:%M</span>')
 
 -- Add a calendar (credits to kylekewley for the original code)
-local month_calendar = awful.widget.calendar_popup.month({
-  screen = s,
-  start_sunday = false,
-  week_numbers = true
-})
-month_calendar:attach(textclock)
+--local month_calendar = awful.widget.calendar_popup.month({
+--  screen = s,
+--  start_sunday = false,
+--  week_numbers = true
+--})
+--month_calendar:attach(textclock)
 
-local clock_widget = wibox.container.margin(textclock, dpi(13), dpi(13), dpi(8), dpi(8))
+--local clock_widget = wibox.container.margin(textclock, dpi(13), dpi(13), dpi(8), dpi(8))
 
 local add_button = mat_icon_button(mat_icon(icons.plus, dpi(24)))
 add_button:buttons(
@@ -77,29 +77,29 @@ local pc = awesomebuttons.with_icon{
 }
 
 -- CPU
-local total_prev = 0
-local idle_prev = 0
-local cpuload = wibox.widget.textbox()
-watch(
-  [[bash -c "cat /proc/stat | grep '^cpu '"]],
-  2,
-  function(_, stdout)
-    local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
-      stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
+--local total_prev = 0
+--local idle_prev = 0
+--local cpuload = wibox.widget.textbox()
+--watch(
+--  [[bash -c "cat /proc/stat | grep '^cpu '"]],
+--  2,
+--  function(_, stdout)
+--    local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
+--      stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
 
-    local total = user + nice + system + idle + iowait + irq + softirq + steal
+--    local total = user + nice + system + idle + iowait + irq + softirq + steal
 
-    local diff_idle = idle - idle_prev
-    local diff_total = total - total_prev
-    local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
+--    local diff_idle = idle - idle_prev
+--    local diff_total = total - total_prev
+--    local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
-    cpuload.markup = '<span color="#808080">' .. math.ceil(diff_usage) .. "% " .. '</span>'
+--    cpuload.markup = '<span color="#808080">' .. math.ceil(diff_usage) .. "% " .. '</span>'
 
-    total_prev = total
-    idle_prev = idle
-    collectgarbage('collect')
-  end
-)
+--    total_prev = total
+--    idle_prev = idle
+--    collectgarbage('collect')
+--  end
+--)
 
 --TEMPERATURE
 local tempload0 = wibox.widget.textbox()
@@ -262,6 +262,28 @@ local LayoutBox = function(s)
   return layoutBox
 end
 
+local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
+-- ...
+-- Create a textclock widget
+--mytextclock = wibox.widget.textclock()
+-- default
+local cw = calendar_widget()
+-- or customized
+local cw = calendar_widget({
+    theme = 'nord',
+    placement = 'top_right',
+    radius = 2,
+})
+mytextclock:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then cw.toggle() end
+    end)
+
+local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+
+local weather_widget = require("awesome-wm-widgets.weather-widget.weather")
+
+
 local TopPanel = function(s, offset)
   local offsetx = 0
   if offset == true then
@@ -303,18 +325,38 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (cpuload,0,5,7,2),
+        	wibox.container.margin (cpu_widget({
+                width = 32,
+                step_width = 4,
+                step_spacing = 2,
+                color = '#293943'
+            }),0,15,15,10),
+--            wibox.container.margin (cpuload,0,5,7,2),
             wibox.container.margin (temploadq,0,5,7,2),
             wibox.container.margin (tempload0,0,5,7,2),
             wibox.container.margin (tempload1,0,5,7,2),
             wibox.container.margin (tempload2,0,5,7,2),
             wibox.container.margin (tempload3,0,5,7,2),
             wibox.container.margin (memload,0,10,7,2),
+            wibox.container.margin ( weather_widget({
+                    api_key='596e71c77713e6a51c75d1788ea41ce1',
+                    coordinates = {62.7476225262126, 7.2289747750247795},
+                    time_format_12h = false,
+                    units = 'metric',
+                    step_width = '4',
+                    step_spacing = '2',
+                    both_units_widget = false,
+                    font_name = 'Carter One',
+                    icons = 'weather-underground-icons',
+                    icons_extension = '.png',
+                    show_hourly_forecast = true,
+                    show_daily_forecast = true,
+              }),0,15,15,10),
             layout = wibox.layout.fixed.horizontal,
       },
       wibox.container.margin (tv,5,3,9,9),
       wibox.container.margin (pc,0,5,9,9),
-      wibox.container.margin (clock_widget,0,5,13,7),
+      wibox.container.margin (mytextclock,5,5,13,7),
       -- Layout box
       LayoutBox(s)
     }
