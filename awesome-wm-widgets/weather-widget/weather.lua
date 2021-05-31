@@ -171,6 +171,7 @@ local function worker(user_args)
         shape = function(cr, width, height)
             gears.shape.rounded_rect(cr, width, height, 2)
         end,
+        background_color = "#112933",
         widget = wibox.container.background,
         set_image = function(self, path)
             self:get_children_by_id('icon')[1].image = path
@@ -317,7 +318,7 @@ local function worker(user_args)
                         },
                         layout = wibox.layout.fixed.vertical
                     },
-                    spacing = 8,
+                    spacing = 16,
                     layout = wibox.layout.fixed.vertical
                 }
                 table.insert(self, day_forecast)
@@ -327,8 +328,8 @@ local function worker(user_args)
 
     local hourly_forecast_graph = wibox.widget {
         step_width = 12,
-        color = '#EBCB8B',
-        background_color = beautiful.bg_normal,
+        color = '#707780',
+        background_color = "#112933",
         forced_height = 100,
         forced_width = 300,
         widget = wibox.widget.graph,
@@ -342,7 +343,7 @@ local function worker(user_args)
     local hourly_forecast_negative_graph = wibox.widget {
         step_width = 12,
         color = '#112933',
-        background_color = beautiful.bg_normal,
+        background_color = "#112933",
         forced_height = 90,
         forced_width = 300,
         widget = wibox.widget.graph,
@@ -534,17 +535,17 @@ local function worker(user_args)
                 margins = 10,
                 widget = wibox.container.margin
             },
-            bg = beautiful.bg_normal,
+            bg = "#112933",
             widget = wibox.container.background
         })
     end
 
     weather_widget:buttons(gears.table.join(awful.button({}, 1, function()
             if weather_popup.visible then
-                weather_widget:set_bg('#00000000')
+                weather_widget:set_bg('#112933')
                 weather_popup.visible = not weather_popup.visible
             else
-                weather_widget:set_bg(beautiful.bg_focus)
+                weather_widget:set_bg('#011923')
                 weather_popup:move_next_to(mouse.current_widget_geometry)
             end
         end)))
