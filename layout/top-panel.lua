@@ -49,84 +49,80 @@ add_button:buttons(
 -- my buttons
 -- if they change: pacmd list-sources | grep -e 'index:' -e device.string -e 'name:'
 
-local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo; pacmd set-sink-volume alsa_output.pci-0000_01_00.1.hdmi-stereo 29000"
+local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo; pacmd set-sink-volume alsa_output.pci-0000_01_00.1.hdmi-stereo 23000"
 
 local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; pacmd set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 65536"
 
-local tv = awesomebuttons.with_icon{ 
-    icon = 'film',
+local tv = awesomebuttons.with_text{ 
+    --icon = 'film',
+    --margins = 8,
+    --size = 13,
+    --border = 2,
+    --shape = 'rounded_rect',
     type = 'outline', 
-    margins = 8,
-    size = 13,
-    border = 2,
+    text_size = 7,
+    text = 'TV',    
     color = 'olive' ,
-    shape = 'circle',
     onclick = do_hdmi,
     restart = 1 
 }
-local pc = awesomebuttons.with_icon{ 
-    icon = 'tv',
+local pc = awesomebuttons.with_text{ 
+    --icon = 'tv',
+    text_size = 7,
+    text = 'PC',    
     type = 'outline', 
-    margins = 8,
-    size = 13,
-    border = 2,
+    --margins = 8,
+    --size = 13,
+    --border = 2,
     color = 'grey' ,
-    shape = 'circle',
+    --shape = 'rounded_rect',
     onclick = do_stereo,
     restart = 1 
 }
 
--- CPU
---local total_prev = 0
---local idle_prev = 0
---local cpuload = wibox.widget.textbox()
---watch(
---  [[bash -c "cat /proc/stat | grep '^cpu '"]],
---  2,
---  function(_, stdout)
---    local user, nice, system, idle, iowait, irq, softirq, steal, guest, guest_nice =
---      stdout:match('(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s(%d+)%s')
-
---    local total = user + nice + system + idle + iowait + irq + softirq + steal
-
---    local diff_idle = idle - idle_prev
---    local diff_total = total - total_prev
---    local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
-
---    cpuload.markup = '<span color="#808080">' .. math.ceil(diff_usage) .. "% " .. '</span>'
-
---    total_prev = total
---    idle_prev = idle
---    collectgarbage('collect')
---  end
---)
-
 --CPU radial
-local cputext = wibox.widget {
-   font = 'Play 8',
-   align = 'center',
-   valign = 'center',
-   widget = wibox.widget.textbox,
-   markup = 'L' 
+--local cputext = wibox.widget {
+--   font = 'Play 8',
+--   align = 'center',
+--   valign = 'center',
+--   widget = wibox.widget.textbox,
+--   markup = 'L' 
+--}
+
+--local cputext_with_background = wibox.container.background(cputext)
+--cpuload2 = wibox.widget {
+--    cputext_with_background,
+--    max_value = 10,
+--    border_color = "#0000ff",
+--    rounded_edge = true,
+--    thickness = 2,
+--    start_angle = 4.71238898, -- 2pi*3/4
+--    forced_height = 30,
+--    forced_width = 30,
+--    bg = '#ffffff22',
+--    paddings = 1,
+--    colors = {
+--        "#ffffff66",
+--    },
+--   widget = wibox.container.arcchart
+--}
+cpuload2 = wibox.widget {
+    value            = 0,
+    max_value        = 10,
+    background_color = "#112933",
+    border_width     = 1,
+    border_color     = "#888888",
+    color            = "#888888",
+    forced_height    = 20,
+    forced_width     = 20,
+    paddings         = 0,
+    margins          = {
+        top    = 12,
+        bottom = 12,
+    },
+    widget = wibox.widget.progressbar,
 }
 
-local cputext_with_background = wibox.container.background(cputext)
-cpuload2 = wibox.widget {
-    cputext_with_background,
-    max_value = 10,
-    border_color = "#0000ff",
-    rounded_edge = true,
-    thickness = 2,
-    start_angle = 4.71238898, -- 2pi*3/4
-    forced_height = 30,
-    forced_width = 30,
-    bg = '#ffffff22',
-    paddings = 1,
-    colors = {
-        "#ffffff66",
-    },
-   widget = wibox.container.arcchart
-}
 local total_prev = 0
 local idle_prev = 0
 watch(
@@ -167,24 +163,39 @@ local temptext = wibox.widget {
    markup = "°C"
 }
 
-local temptext_with_background = wibox.container.background(temptext)
+--local temptext_with_background = wibox.container.background(temptext)
+--tempload2 = wibox.widget {
+--    temptext_with_background,
+--    max_value = 94,
+--    border_color = "#0000ff",
+--    rounded_edge = true,
+--    thickness = 2,
+--    start_angle = 4.71238898, -- 2pi*3/4
+--    forced_height = 30,
+--    forced_width = 30,
+--    bg = '#ffff0022',
+--    paddings = 1,
+--    colors = {
+--        "#ffff0088",
+--    },
+--   widget = wibox.container.arcchart
+--}
 tempload2 = wibox.widget {
-    temptext_with_background,
-    max_value = 94,
-    border_color = "#0000ff",
-    rounded_edge = true,
-    thickness = 2,
-    start_angle = 4.71238898, -- 2pi*3/4
-    forced_height = 30,
-    forced_width = 30,
-    bg = '#ffff0022',
-    paddings = 1,
-    colors = {
-        "#ffff0088",
+    value            = 0,
+    max_value        = 94,
+    background_color = "#112933",
+    border_width     = 1,
+    border_color     = "#888800",
+    color            = "#888800",
+    forced_height    = 20,
+    forced_width     = 30,
+    paddings         = 0,
+    margins          = {
+        top    = 12,
+        bottom = 12,
     },
-   widget = wibox.container.arcchart
+    widget = wibox.widget.progressbar,
 }
-
 watch(
   'bash -c "sensors | grep Core\\ 0 | cut -c17-18"',
   12,
@@ -209,22 +220,38 @@ local tempgputext = wibox.widget {
    widget = wibox.widget.textbox,
 }
 
-local tempgputext_with_background = wibox.container.background(tempgputext)
+--local tempgputext_with_background = wibox.container.background(tempgputext)
+--tempgpuload2 = wibox.widget {
+--    tempgputext_with_background,
+--    max_value = 94,
+--    border_color = "#0000ff",
+--    rounded_edge = true,
+--    thickness = 2,
+--    start_angle = 4.71238898, -- 2pi*3/4
+--    forced_height = 30,
+--    forced_width = 30,
+--    bg = '#80ffd022',
+--    paddings = 1,
+--    colors = {
+--        "#80ffd088",
+--    },
+--   widget = wibox.container.arcchart
+--}
 tempgpuload2 = wibox.widget {
-    tempgputext_with_background,
-    max_value = 94,
-    border_color = "#0000ff",
-    rounded_edge = true,
-    thickness = 2,
-    start_angle = 4.71238898, -- 2pi*3/4
-    forced_height = 30,
-    forced_width = 30,
-    bg = '#80ffd022',
-    paddings = 1,
-    colors = {
-        "#80ffd088",
+    value            = 0,
+    max_value        = 94,
+    background_color = "#112933",
+    border_width     = 1,
+    border_color     = "#338800",
+    color            = "#338800",
+    forced_height    = 20,
+    forced_width     = 30,
+    paddings         = 0,
+    margins          = {
+        top    = 12,
+        bottom = 12,
     },
-   widget = wibox.container.arcchart
+    widget = wibox.widget.progressbar,
 }
 watch(
   'bash -c "sensors | grep temp1: | cut -c16-17"',
@@ -256,32 +283,47 @@ end
 --)
 
 --MEMORY radial
-local memtext = wibox.widget {
-   font = 'Play 8',
-   align = 'center',
-   markup = 'M',
-   valign = 'center',
-   widget = wibox.widget.textbox
-}
+--local memtext = wibox.widget {
+--   font = 'Play 8',
+--   align = 'center',
+--   markup = 'M',
+--   valign = 'center',
+--   widget = wibox.widget.textbox
+--}
 
-local memtext_with_background = wibox.container.background(memtext)
+--local memtext_with_background = wibox.container.background(memtext)
+--memload2 = wibox.widget {
+--    memtext_with_background,
+--    max_value = 10,
+--    border_color = "#0000ff",
+--    rounded_edge = true,
+--    thickness = 2,
+--    start_angle = 4.71238898, -- 2pi*3/4
+--    forced_height = 30,
+--    forced_width = 30,
+--    bg = '#00f0ff22',
+--    paddings = 1,
+--    colors = {
+--        "#00f0ff88",
+--    },
+--    widget = wibox.container.arcchart
+--}
 memload2 = wibox.widget {
-    memtext_with_background,
-    max_value = 10,
-    border_color = "#0000ff",
-    rounded_edge = true,
-    thickness = 2,
-    start_angle = 4.71238898, -- 2pi*3/4
-    forced_height = 30,
-    forced_width = 30,
-    bg = '#00f0ff22',
-    paddings = 1,
-    colors = {
-        "#00f0ff88",
+    value            = 0,
+    max_value        = 10,
+    background_color = "#112933",
+    border_width     = 1,
+    border_color     = "#5555aa",
+    color            = "#5555aa",
+    forced_height    = 20,
+    forced_width     = 20,
+    paddings         = 0,
+    margins          = {
+        top    = 12,
+        bottom = 12,
     },
-    widget = wibox.container.arcchart
+    widget = wibox.widget.progressbar,
 }
-
 watch(
   'bash -c "free | grep -z Mem.*Swap.*"',
   10,
@@ -453,10 +495,12 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (cpuload2,0,5,7,2),
-            wibox.container.margin (tempgpuload2,0,5,7,2),
-            wibox.container.margin (tempload2,0,5,7,2),
-            wibox.container.margin (memload2,0,5,7,2),
+            wibox.container.margin (cpuload2,0,5,4,2),
+            wibox.container.margin (memload2,0,5,4,2),
+            wibox.container.margin (tempgputext,0,5,4,2),
+            wibox.container.margin (tempgpuload2,0,5,4,2),
+            wibox.container.margin (temptext,0,5,4,2),
+            wibox.container.margin (tempload2,0,5,4,2),
             wibox.container.margin ( weather_widget({
                     api_key='596e71c77713e6a51c75d1788ea41ce1',
                     coordinates = {62.7476225262126, 7.2289747750247795},
@@ -473,9 +517,9 @@ local TopPanel = function(s, offset)
               }),0,5,12,12),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv,5,3,9,9),
-      wibox.container.margin (pc,0,5,9,9),
-      wibox.container.margin (mytextclock,5,5,13,7),
+      wibox.container.margin (tv,5,5,14,7),
+      wibox.container.margin (pc,0,5,14,7),
+      wibox.container.margin (mytextclock,5,5,10,10),
       -- Layout box
       LayoutBox(s)
     }
