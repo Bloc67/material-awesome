@@ -287,8 +287,8 @@ local function worker(user_args)
                             {
                                 image = ICONS_DIR .. icon_map[day.weather[1].icon] .. icons_extension,
                                 resize = true,
-                                forced_width = 48,
-                                forced_height = 48,
+                                forced_width = 36,
+                                forced_height = 36,
                                 widget = wibox.widget.imagebox
                             },
                             align = 'center',

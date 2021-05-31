@@ -94,11 +94,11 @@ buttons.with_text = function(args)
                 markup = '<span size="' .. text_size .. '000" foreground="' .. ((type == 'flat') and '#00000000' or color) .. '">' .. text ..'</span>',
                 widget = wibox.widget.textbox
             },
-            top = 0, bottom = 5, left = 8, right = 8,
+            top = 0, bottom = 12, left = 8, right = 8,
             widget = wibox.container.margin
         },
         bg = '#00000000',
-        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, 20, 0) end,
+        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, 12, 0) end,
         widget = wibox.container.background
 
     }

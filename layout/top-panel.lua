@@ -515,11 +515,11 @@ local TopPanel = function(s, offset)
                     icons_extension = '.png',
                     show_hourly_forecast = true,
                     show_daily_forecast = true,
-              }),0,5,12,12),
+              }),0,5,15,15),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv,5,5,14,7),
-      wibox.container.margin (pc,0,5,14,7),
+      wibox.container.margin (tv,5,5,18,5),
+      wibox.container.margin (pc,0,5,18,5),
       wibox.container.margin (mytextclock,5,5,10,10),
       -- Layout box
       LayoutBox(s)
