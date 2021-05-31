@@ -162,7 +162,7 @@ watch(
   function(_, stdout)
     local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
-    memload.markup = '<span color="#606060">' .. math.ceil(used / total * 28) .. '/28GB</span>' 
+    memload.markup = '<span color="#606060">' .. math.ceil(used / total * 8) .. '/8GB</span>' 
     collectgarbage('collect')
   end
 )
@@ -331,12 +331,6 @@ local TopPanel = function(s, offset)
                 step_spacing = 2,
                 color = '#293943'
             }),0,15,15,10),
---            wibox.container.margin (cpuload,0,5,7,2),
-            wibox.container.margin (temploadq,0,5,7,2),
-            wibox.container.margin (tempload0,0,5,7,2),
-            wibox.container.margin (tempload1,0,5,7,2),
-            wibox.container.margin (tempload2,0,5,7,2),
-            wibox.container.margin (tempload3,0,5,7,2),
             wibox.container.margin (memload,0,10,7,2),
             wibox.container.margin ( weather_widget({
                     api_key='596e71c77713e6a51c75d1788ea41ce1',
