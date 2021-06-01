@@ -8,7 +8,6 @@ local mat_icon_button = require('widget.material.icon-button')
 local mat_icon = require('widget.material.icon')
 local watch = require('awful.widget.watch')
 local awesomebuttons = require("awesome-buttons.awesome-buttons")
-local box = require('widget.progressbox.box')
 
 local dpi = require('beautiful').xresources.apply_dpi
 
@@ -81,11 +80,17 @@ local pc = awesomebuttons.with_text{
     restart = 1 
 }
 
-local cpu = box.with_text{ 
+local cpu = awesomebuttons.with_progress_and_text{ 
+    icon = 'tv',
     text_size = 7,
-    text = 'CPU',    
-    onclick = 'terminal -e top',
-    restart = 1 
+    text = 'PC',    
+    type = 'outline', 
+    margins = 8,
+    size = 13,
+    border = 2,
+    color = 'grey' ,
+    shape = 'rect',
+    onclick = 'terminator -e top'
 }
 
 

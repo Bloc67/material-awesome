@@ -178,7 +178,7 @@ buttons.with_icon_and_text = function(args)
             layout = wibox.layout.align.horizontal
         },
         bg = '#00000000',
-        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, 4) end,
+        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, 0) end,
         widget = wibox.container.background
     }
 
@@ -215,5 +215,90 @@ buttons.with_icon_and_text = function(args)
         return result
 end
 
+buttons.with_progress_and_text = function(args)
+
+    local type = args.type or 'basic'
+    local max_value = args.max_value or 100
+    local max_value = args.max_value or 100
+    local text = args.text
+    local icon = args.icon
+    local onclick = args.onclick or function() end
+    local color = args.color or '#D8DEE9'
+    local text_size = args.text_size or 10
+
+    if icon:sub(1, 1) ~= '/' then
+        icon = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/' .. icon .. '.svg'
+    end
+
+
+    local result = wibox.widget{
+        {
+            {
+                {
+                    value            = 5,
+                    max_value        = 10,
+                    background_color = "#112933",
+                    border_width     = 1,
+                    border_color     = "#5555aa",
+                    color            = "#5555aa",
+--                    forced_height    = 14,
+                    forced_width     = 20,
+                    paddings         = 0,
+--                    margins          = {
+--                        top    = 15,
+--                        bottom = 15,
+--                    },
+                    widget = wibox.widget.progressbar,
+                },
+                margins = 4,
+                widget = wibox.container.margin
+            },
+            {
+                {
+                    markup = '<span size="' .. text_size .. '000" foreground="' .. ((type == 'flat') and '#00000000' or color) .. '">' .. text ..'</span>',
+                    widget = wibox.widget.textbox
+                },
+                top = 4, bottom = 4, right = 8,
+                widget = wibox.container.margin
+            },
+            layout = wibox.layout.align.horizontal
+        },
+        bg = '#00000000',
+        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, 0) end,
+        widget = wibox.container.background
+    }
+
+        if type == 'outline' then
+            result:set_shape_border_color(color)
+            result:set_shape_border_width(1)
+        end
+
+        if type == 'flat' then
+            result:set_bg(color)
+        end
+
+        local old_cursor, old_wibox
+        result:connect_signal("mouse::enter", function(c)
+            if type ~= 'flat' then
+                c:set_bg('#00000044')
+            end
+            local wb = mouse.current_wibox
+            old_cursor, old_wibox = wb.cursor, wb
+            wb.cursor = "hand1"
+        end)
+        result:connect_signal("mouse::leave", function(c)
+            if type ~= 'flat' then
+                c:set_bg('#00000000')
+            end
+            if old_wibox then
+                old_wibox.cursor = old_cursor
+                old_wibox = nil
+            end
+        end)
+
+        result:connect_signal("button::press", function() onclick() end)
+
+        return result
+end
 
 return buttons
