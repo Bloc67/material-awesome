@@ -8,7 +8,7 @@ local buttons = {}
 buttons.with_icon = function(args)
     local type = args.type or 'basic'
     local size = args.size or 20
-    local margins = args.margins or 8
+    local margins = args.margins or 4
     local color = args.color or '#D8DEE9'
     local border = args.border or 1
     local icon = args.icon or 'help-circle'
@@ -94,11 +94,11 @@ buttons.with_text = function(args)
                 markup = '<span size="' .. text_size .. '000" foreground="' .. ((type == 'flat') and '#00000000' or color) .. '">' .. text ..'</span>',
                 widget = wibox.widget.textbox
             },
-            top = 4, bottom = 4, left = 8, right = 8,
+            top = 0, bottom = 12, left = 8, right = 8,
             widget = wibox.container.margin
         },
         bg = '#00000000',
-        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, height, 4) end,
+        shape = function(cr, width, height) gears.shape.rounded_rect(cr, width, 12, 0) end,
         widget = wibox.container.background
 
     }
@@ -129,7 +129,13 @@ buttons.with_text = function(args)
         end
     end)
 
-    result:connect_signal("button::press", function() awful.spawn.with_shell(onclick) end)
+    result:connect_signal("button::press", function() 
+        awful.spawn.with_shell(onclick) 
+        if args.restart == 1 then
+            awesome.restart() 
+        end
+     end
+    )
 
     return result
 end
