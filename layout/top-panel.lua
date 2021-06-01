@@ -9,22 +9,15 @@ local mat_icon = require('widget.material.icon')
 local watch = require('awful.widget.watch')
 local awesomebuttons = require("awesome-buttons.awesome-buttons")
 
+local bgcolor = '#192933'
+local bgcolorhover = '#121e25'
+
 local dpi = require('beautiful').xresources.apply_dpi
 
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
 local mytextclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 9" color="#70e0f0"> %H:%M</span>')
-
--- Add a calendar (credits to kylekewley for the original code)
---local month_calendar = awful.widget.calendar_popup.month({
---  screen = s,
---  start_sunday = false,
---  week_numbers = true
---})
---month_calendar:attach(textclock)
-
---local clock_widget = wibox.container.margin(textclock, dpi(13), dpi(13), dpi(8), dpi(8))
 
 local add_button = mat_icon_button(mat_icon(icons.plus, dpi(24)))
 add_button:buttons(
@@ -50,15 +43,9 @@ add_button:buttons(
 -- if they change: pacmd list-sources | grep -e 'index:' -e device.string -e 'name:'
 
 local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo; pacmd set-sink-volume alsa_output.pci-0000_01_00.1.hdmi-stereo 23000"
-
 local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; pacmd set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 65536"
 
 local tv = awesomebuttons.with_text{ 
-    --icon = 'film',
-    --margins = 8,
-    --size = 13,
-    --border = 2,
-    --shape = 'rounded_rect',
     type = 'outline', 
     text_size = 7,
     text = 'TV',    
@@ -67,60 +54,39 @@ local tv = awesomebuttons.with_text{
     restart = 1 
 }
 local pc = awesomebuttons.with_text{ 
-    --icon = 'tv',
     text_size = 7,
     text = 'PC',    
     type = 'outline', 
-    --margins = 8,
-    --size = 13,
-    --border = 2,
     color = 'grey' ,
-    --shape = 'rounded_rect',
     onclick = do_stereo,
     restart = 1 
 }
 
---CPU radial
---local cputext = wibox.widget {
---   font = 'Play 8',
---   align = 'center',
---   valign = 'center',
---   widget = wibox.widget.textbox,
---   markup = 'L' 
---}
-
---local cputext_with_background = wibox.container.background(cputext)
---cpuload2 = wibox.widget {
---    cputext_with_background,
---    max_value = 10,
---    border_color = "#0000ff",
---    rounded_edge = true,
---    thickness = 2,
---    start_angle = 4.71238898, -- 2pi*3/4
---    forced_height = 30,
---    forced_width = 30,
---    bg = '#ffffff22',
---    paddings = 1,
---    colors = {
---        "#ffffff66",
---    },
---   widget = wibox.container.arcchart
---}
-cpuload2 = wibox.widget {
-    value            = 0,
-    max_value        = 10,
-    background_color = "#112933",
-    border_width     = 1,
-    border_color     = "#888888",
-    color            = "#888888",
-    forced_height    = 14,
-    forced_width     = 20,
+-- CPU big progressbar
+local cputext = wibox.widget {
+    align = 'center',
+    valign = 'center',
+    widget = wibox.widget.textbox,
+    markup = "%",
+}
+local cpuload = wibox.widget {
+    value            = 4,
+    max_value        = 100,
+    background_color = bgcolorhover,
+    border_width     = 0,
+    color            = "#ddffee30",
     paddings         = 0,
-    margins          = {
-        top    = 15,
-        bottom = 15,
+    widget = wibox.widget.progressbar
+}
+local cpuload2 = wibox.widget {
+    wibox.widget {
+        cpuload,
+        forced_width  = 40,
+        direction     = 'east',
+        layout        = wibox.container.rotate
     },
-    widget = wibox.widget.progressbar,
+    cputext,    
+    layout = wibox.layout.stack
 }
 
 local total_prev = 0
@@ -136,65 +102,62 @@ watch(
 
     local diff_idle = idle - idle_prev
     local diff_total = total - total_prev
-    local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 100
+    local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
-    cpuload2.value = math.ceil(diff_usage)
-
+    cpuload.value = math.ceil(diff_usage)
+    cputext.markup = cpuload.value .. "%"
+    if cpuload.value > 90 then
+        cpuload.color = "#ff808080"        
+    end    
     total_prev = total
     idle_prev = idle
     collectgarbage('collect')
   end
 )
+
+local old_cursor, old_wibox
+cpuload2:connect_signal("mouse::enter", function(c)
+    local wb = mouse.current_wibox
+    old_cursor, old_wibox = wb.cursor, wb
+    wb.cursor = "hand1"
+end)
+cpuload2:connect_signal("mouse::leave", function(c)
+    if old_wibox then
+        old_wibox.cursor = old_cursor
+        old_wibox = nil
+    end
+end)
 cpuload2:connect_signal("button::press", function() 
     awful.spawn.with_shell("terminator -e bashtop") 
 end
 )
 
-
-
-
 --TEMPERATURE
 --temp radial
 local temptext = wibox.widget {
-   font = 'Play 8',
-   align = 'center',
-   valign = 'center',
-   widget = wibox.widget.textbox,
-   markup = "°C"
+    align = 'center',
+    valign = 'center',
+    widget = wibox.widget.textbox,
+    markup = "°C",
 }
-
---local temptext_with_background = wibox.container.background(temptext)
---tempload2 = wibox.widget {
---    temptext_with_background,
---    max_value = 94,
---    border_color = "#0000ff",
---    rounded_edge = true,
---    thickness = 2,
---    start_angle = 4.71238898, -- 2pi*3/4
---    forced_height = 30,
---    forced_width = 30,
---    bg = '#ffff0022',
---    paddings = 1,
---    colors = {
---        "#ffff0088",
---    },
---   widget = wibox.container.arcchart
---}
-tempload2 = wibox.widget {
-    value            = 0,
-    max_value        = 94,
-    background_color = "#112933",
-    border_width     = 1,
-    border_color     = "#888800",
-    color            = "#888800",
-    forced_height    = 14,
-    forced_width     = 30,
+local tempload = wibox.widget {
+    value            = 40,
+    max_value        = 100,
+    background_color = bgcolorhover,
+    border_width     = 0,
+    color            = "#ffff8030",
     paddings         = 0,
-    margins          = {
-        top    = 15,
-        bottom = 15,
+    widget = wibox.widget.progressbar
+}
+local tempload2 = wibox.widget {
+    wibox.widget {
+        tempload,
+        forced_width  = 40,
+        direction     = 'north',
+        layout        = wibox.container.rotate
     },
-    widget = wibox.widget.progressbar,
+    temptext,    
+    layout = wibox.layout.stack
 }
 watch(
   'bash -c "sensors | grep Core\\ 0 | cut -c17-18"',
@@ -202,127 +165,112 @@ watch(
   function(_, stdout)
     local temp = tonumber(stdout)
     --tempload0.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
-    tempload2.value = temp
+    tempload.value = temp
     temptext.markup = temp .. "°"
-    collectgarbage('collect')
+    if temp > 65 then
+        tempload.color = "#ff8080ff"        
+    end    
+     collectgarbage('collect')
   end
 )
 tempload2:connect_signal("button::press", function() 
     awful.spawn.with_shell("terminator -e sensors") 
 end
 )
+local old_cursor2, old_wibox2
+tempload2:connect_signal("mouse::enter", function(c)
+    local wb2 = mouse.current_wibox
+    old_cursor2, old_wibox2 = wb2.cursor, wb2
+    wb2.cursor = "hand1"
+end)
+tempload2:connect_signal("mouse::leave", function(c)
+    if old_wibox2 then
+        old_wibox2.cursor = old_cursor2
+        old_wibox2 = nil
+    end
+end)
 
 --temp GPU radial
-local tempgputext = wibox.widget {
-   font = 'Play 8',
-   align = 'center',
-   valign = 'center',
-   widget = wibox.widget.textbox,
+local tempgtext = wibox.widget {
+    align = 'center',
+    valign = 'center',
+    widget = wibox.widget.textbox,
+    markup = "°C",
 }
-
---local tempgputext_with_background = wibox.container.background(tempgputext)
---tempgpuload2 = wibox.widget {
---    tempgputext_with_background,
---    max_value = 94,
---    border_color = "#0000ff",
---    rounded_edge = true,
---    thickness = 2,
---    start_angle = 4.71238898, -- 2pi*3/4
---    forced_height = 30,
---    forced_width = 30,
---    bg = '#80ffd022',
---    paddings = 1,
---    colors = {
---        "#80ffd088",
---    },
---   widget = wibox.container.arcchart
---}
-tempgpuload2 = wibox.widget {
-    value            = 0,
-    max_value        = 94,
-    background_color = "#112933",
-    border_width     = 1,
-    border_color     = "#338800",
-    color            = "#338800",
-    forced_height    = 14,
-    forced_width     = 30,
+local tempgload = wibox.widget {
+    value            = 40,
+    max_value        = 100,
+    background_color = bgcolorhover,
+    border_width     = 0,
+    color            = "#80ffff30",
     paddings         = 0,
-    margins          = {
-        top    = 15,
-        bottom = 15,
+    widget = wibox.widget.progressbar
+}
+local tempgload2 = wibox.widget {
+    wibox.widget {
+        tempgload,
+        forced_width  = 40,
+        direction     = 'north',
+        layout        = wibox.container.rotate
     },
-    widget = wibox.widget.progressbar,
+    tempgtext,    
+    layout = wibox.layout.stack
 }
 watch(
   'bash -c "sensors | grep temp1: | cut -c16-17"',
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    tempgpuload2.value = temp
-    tempgputext.markup = temp .. "°"
+    tempgload.value = temp
+    tempgtext.markup = temp .. "°"
+    if temp > 60 then
+        tempqload.color = "#ff8080ff"        
+    end    
     collectgarbage('collect')
   end
 )
-tempgpuload2:connect_signal("button::press", function() 
+tempgload2:connect_signal("button::press", function() 
     awful.spawn.with_shell("terminator -e sensors") 
 end
 )
+local old_cursor3, old_wibox3
+tempgload2:connect_signal("mouse::enter", function(c)
+    local wb3 = mouse.current_wibox
+    old_cursor3, old_wibox3 = wb3.cursor, wb3
+    wb3.cursor = "hand1"
+end)
+tempgload2:connect_signal("mouse::leave", function(c)
+    if old_wibox3 then
+        old_wibox3.cursor = old_cursor3
+        old_wibox3 = nil
+    end
+end)
 
-
---MEMORY
---local memload = wibox.widget.textbox()
---watch(
---  'bash -c "free | grep -z Mem.*Swap.*"',
---  10,
---  function(_, stdout)
---    local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
---      stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
---    memload.markup = '<span color="#606060">' .. math.ceil(used / total * 28) .. '/28GB</span>' 
---    collectgarbage('collect')
---  end
---)
-
---MEMORY radial
---local memtext = wibox.widget {
---   font = 'Play 8',
---   align = 'center',
---   markup = 'M',
---   valign = 'center',
---   widget = wibox.widget.textbox
---}
-
---local memtext_with_background = wibox.container.background(memtext)
---memload2 = wibox.widget {
---    memtext_with_background,
---    max_value = 10,
---    border_color = "#0000ff",
---    rounded_edge = true,
---    thickness = 2,
---    start_angle = 4.71238898, -- 2pi*3/4
---    forced_height = 30,
---    forced_width = 30,
---    bg = '#00f0ff22',
---    paddings = 1,
---    colors = {
---        "#00f0ff88",
---    },
---    widget = wibox.container.arcchart
---}
-memload2 = wibox.widget {
-    value            = 0,
-    max_value        = 10,
-    background_color = "#112933",
-    border_width     = 1,
-    border_color     = "#5555aa",
-    color            = "#5555aa",
-    forced_height    = 14,
-    forced_width     = 20,
+--MEMory gadget
+local memtext = wibox.widget {
+    align = 'center',
+    valign = 'center',
+    widget = wibox.widget.textbox,
+    markup = "%",
+}
+local memload = wibox.widget {
+    value            = 4,
+    max_value        = 100,
+    background_color = bgcolorhover,
+    border_width     = 0,
+    color            = "#aaddff30",
     paddings         = 0,
-    margins          = {
-        top    = 15,
-        bottom = 15,
+    widget = wibox.widget.progressbar
+}
+local memload2 = wibox.widget {
+    wibox.widget {
+        memload,
+        forced_width  = 40,
+        direction     = 'east',
+        layout        = wibox.container.rotate
     },
-    widget = wibox.widget.progressbar,
+    memtext,    
+    layout = wibox.layout.stack
 }
 watch(
   'bash -c "free | grep -z Mem.*Swap.*"',
@@ -330,7 +278,10 @@ watch(
   function(_, stdout)
     local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
-    memload2.value = math.ceil(used / total * 10) 
+    
+    memload.value = math.ceil(used / total * 100) 
+    memtext.markup = math.ceil(used / total * 100) .. "%"
+    
     collectgarbage('collect')
   end
 )
@@ -338,7 +289,20 @@ memload2:connect_signal("button::press", function()
     awful.spawn.with_shell("terminator -e bashtop") 
 end
 )
- 
+local old_cursor4, old_wibox4
+memload2:connect_signal("mouse::enter", function(c)
+    local wb4 = mouse.current_wibox
+    old_cursor4, old_wibox4 = wb4.cursor, wb4
+    wb4.cursor = "hand1"
+end)
+memload2:connect_signal("mouse::leave", function(c)
+    if old_wibox4 then
+        old_wibox4.cursor = old_cursor4
+        old_wibox4 = nil
+    end
+end
+) 
+
 
 -- Create an imagebox widget which will contains an icon indicating which layout we're using.
 -- We need one layoutbox per screen.
@@ -436,12 +400,8 @@ local LayoutBox = function(s)
 end
 
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
--- ...
--- Create a textclock widget
+
 --mytextclock = wibox.widget.textclock()
--- default
-local cw = calendar_widget()
--- or customized
 local cw = calendar_widget({
     theme = 'nord',
     placement = 'top_right',
@@ -495,12 +455,10 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (cpuload2,0,5,4,2),
-            wibox.container.margin (memload2,0,5,4,2),
-            wibox.container.margin (tempgputext,0,5,4,2),
-            wibox.container.margin (tempgpuload2,0,5,4,2),
-            wibox.container.margin (temptext,0,5,4,2),
-            wibox.container.margin (tempload2,0,5,4,2),
+            wibox.container.margin (cpuload2,0,4,0,0),
+            wibox.container.margin (memload2,0,4,0,0),
+            wibox.container.margin (tempgload2,0,4,0,0),
+            wibox.container.margin (tempload2,0,5,0,0),
             wibox.container.margin ( weather_widget({
                     api_key='596e71c77713e6a51c75d1788ea41ce1',
                     coordinates = {62.7476225262126, 7.2289747750247795},
@@ -515,7 +473,7 @@ local TopPanel = function(s, offset)
                     icons_extension = '.png',
                     show_hourly_forecast = true,
                     show_daily_forecast = true,
-              }),0,5,15,15),
+              }),5,5,10,10),
             layout = wibox.layout.fixed.horizontal,
       },
       wibox.container.margin (tv,5,5,18,5),
