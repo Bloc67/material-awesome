@@ -1,0 +1,4 @@
+curl -A "MyTestApp/0.1" -s 'https://api.met.no/weatherapi/radar/2.0/available.json?type=lx_reflectivity&area=central_norway'|json_pp
+
+curl -A "MyTestApp/0.1" -s 'https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=62.7476225262126&lon=7.2289747750247795'|json_pp > molde.json
+
