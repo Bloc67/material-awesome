@@ -51,7 +51,7 @@ local tv_button = wibox.widget{
    {
         {
             {            
-                image = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/tv.svg',
+                image = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/film.svg',
                 resize = true,
                 forced_height = 24,
                 forced_width = 24,
@@ -73,7 +73,7 @@ tv_button:connect_signal("mouse::enter", function(c)
     local wb_tv = mouse.current_wibox
     old_cursor_tv, old_wibox_tv = wb_tv.cursor, wb_tv
     wb_tv.cursor = "hand1"
-    tv_button.bg = bgcolorhover
+    tv_button.bg = bgcolorlite
 end
 )
 tv_button:connect_signal("mouse::leave", function(c)
@@ -94,7 +94,7 @@ local pc_button = wibox.widget{
    {
         {
             {            
-                image = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/monitor.svg',
+                image = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/cpu.svg',
                 resize = true,
                 forced_height = 24,
                 forced_width = 24,
@@ -106,7 +106,6 @@ local pc_button = wibox.widget{
         },
         left = 10,
         right = 10,
-        top = 4,    
         widget = wibox.container.margin
     },
     bg = bgcolor,
@@ -117,7 +116,7 @@ pc_button:connect_signal("mouse::enter", function(c)
     local wb_pc = mouse.current_wibox
     old_cursor_pc, old_wibox_pc = wb_pc.cursor, wb_pc
     wb_pc.cursor = "hand1"
-    pc_button.bg = bgcolorhover
+    pc_button.bg = bgcolorlite
 end
 )
 pc_button:connect_signal("mouse::leave", function(c)
@@ -169,7 +168,7 @@ local cpuload = wibox.widget {
 local cpuload2 = wibox.widget {
     wibox.widget {
         cpuload,
-        forced_width  = 40,
+        forced_width  = 80,
         direction     = 'east',
         layout        = wibox.container.rotate
     },
@@ -193,7 +192,7 @@ watch(
     local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
     cpuload.value = math.ceil(diff_usage)
-    cputext.markup = math.ceil(diff_usage) .. "%"
+    cputext.markup = "CPU " .. math.ceil(diff_usage) .. "%"
     if math.ceil(diff_usage) > 90 then
         cpuload.color = "#ff808080"        
     end    
@@ -228,24 +227,13 @@ local temptext = wibox.widget {
     widget = wibox.widget.textbox,
     markup = "°C",
 }
-local tempload = wibox.widget {
-    value            = 40,
-    max_value        = 100,
-    background_color = bgcolorlite,
-    border_width     = 0,
-    color            = "#ffff8030",
-    paddings         = 0,
-    widget = wibox.widget.progressbar
-}
 local tempload2 = wibox.widget {
-    wibox.widget {
-        tempload,
-        forced_width  = 40,
-        direction     = 'north',
-        layout        = wibox.container.rotate
-    },
     temptext,    
-    layout = wibox.layout.stack
+    forced_width = 70,
+    forced_height = 48,
+    bg = "#ff200000",
+    fg = "#ffffff",
+    widget = wibox.container.background
 }
 watch(
   'bash -c "sensors | grep Core\\ 0 | cut -c17-18"',
@@ -253,10 +241,12 @@ watch(
   function(_, stdout)
     local temp = tonumber(stdout)
     --tempload0.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
-    tempload.value = temp
-    temptext.markup = temp .. "°"
-    if temp > 65 then
-        tempload.color = "#ff8080ff"        
+    temptext.markup = "CORE " .. temp .. "°"
+    if temp > 60 then
+        tempload2.bg = "#ff200080"        
+    end    
+    if temp > 70 then
+        tempload2.bg = "#ff2000ff"        
     end    
      collectgarbage('collect')
   end
@@ -285,34 +275,26 @@ local tempgtext = wibox.widget {
     widget = wibox.widget.textbox,
     markup = "°C",
 }
-local tempgload = wibox.widget {
-    value            = 40,
-    max_value        = 100,
-    background_color = bgcolorlite,
-    border_width     = 0,
-    color            = "#80ffff30",
-    paddings         = 0,
-    widget = wibox.widget.progressbar
-}
 local tempgload2 = wibox.widget {
-    wibox.widget {
-        tempgload,
-        forced_width  = 40,
-        direction     = 'north',
-        layout        = wibox.container.rotate
-    },
     tempgtext,    
-    layout = wibox.layout.stack
+    forced_width = 70,
+    forced_height = 48,
+    bg = "#ff200000",
+    fg = "#ffffff",
+    widget = wibox.container.background
 }
 watch(
   'bash -c "sensors | grep temp1: | cut -c16-17"',
   15,
   function(_, stdout)
     local temp = tonumber(stdout)
-    tempgload.value = temp
-    tempgtext.markup = temp .. "°"
+
+    tempgtext.markup = "GPU " .. temp .. "°"
     if temp > 60 then
-        tempqload.color = "#ff8080ff"        
+        tempgload2.bg = "#ff200080"        
+    end    
+    if temp > 70 then
+        tempgload2.bg = "#ff2000ff"        
     end    
     collectgarbage('collect')
   end
@@ -353,7 +335,7 @@ local memload = wibox.widget {
 local memload2 = wibox.widget {
     wibox.widget {
         memload,
-        forced_width  = 40,
+        forced_width  = 80,
         direction     = 'east',
         layout        = wibox.container.rotate
     },
@@ -368,7 +350,7 @@ watch(
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
     
     memload.value = math.ceil(used / total * 100) 
-    memtext.markup = math.ceil(used / total * 100) .. "%"
+    memtext.markup = "MEM " .. math.ceil(used / total * 100) .. "%"
     
     collectgarbage('collect')
   end
@@ -561,7 +543,7 @@ local TopPanel = function(s, offset)
                     icons_extension = '.png',
                     show_hourly_forecast = true,
                     show_daily_forecast = true,
-              }),5,5,10,10),
+            }),5,5,4,4),
             layout = wibox.layout.fixed.horizontal,
       },
       wibox.container.margin (tv_button,5,0,0,0),
