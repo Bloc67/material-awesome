@@ -7,7 +7,7 @@ local clickable_container = require('widget.material.clickable-container')
 local mat_icon_button = require('widget.material.icon-button')
 local mat_icon = require('widget.material.icon')
 local watch = require('awful.widget.watch')
-local awesomebuttons = require("awesome-buttons.awesome-buttons")
+--local awesomebuttons = require("awesome-buttons.awesome-buttons")
 
 local bgcolor = '#192933'
 local bgcolorlite = '#293943'
@@ -46,6 +46,7 @@ add_button:buttons(
 local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo; pacmd set-sink-volume alsa_output.pci-0000_01_00.1.hdmi-stereo 23000"
 local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; pacmd set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 65536"
 
+-- new TV button
 local tv_button = wibox.widget{
    {
         {
@@ -88,23 +89,66 @@ tv_button:connect_signal("button::press", function()
 end
 )
 
+-- new PC button
+local pc_button = wibox.widget{
+   {
+        {
+            {            
+                image = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/monitor.svg',
+                resize = true,
+                forced_height = 24,
+                forced_width = 24,
+                widget = wibox.widget.imagebox
+            },
+            valign = 'center',
+            align = 'center',
+            widget = wibox.container.place
+        },
+        left = 10,
+        right = 10,
+        top = 4,    
+        widget = wibox.container.margin
+    },
+    bg = bgcolor,
+    widget = wibox.container.background
+}
+local old_cursor_pc, old_wibox_pc
+pc_button:connect_signal("mouse::enter", function(c)
+    local wb_pc = mouse.current_wibox
+    old_cursor_pc, old_wibox_pc = wb_pc.cursor, wb_pc
+    wb_pc.cursor = "hand1"
+    pc_button.bg = bgcolorhover
+end
+)
+pc_button:connect_signal("mouse::leave", function(c)
+    if old_wibox_pc then
+        old_wibox_pc.cursor = old_cursor_pc
+        old_wibox_pc = nil
+    end
+    pc_button.bg = bgcolor
+end)
+pc_button:connect_signal("button::press", function() 
+    awful.spawn.with_shell(do_stereo)
+    awesome.restart() 
+end
+)
 
-local tv = awesomebuttons.with_text{ 
-    type = 'outline', 
-    text_size = 7,
-    text = 'TV',    
-    color = 'olive' ,
-    onclick = do_hdmi,
-    restart = 1 
-}
-local pc = awesomebuttons.with_text{ 
-    text_size = 7,
-    text = 'PC',    
-    type = 'outline', 
-    color = 'grey' ,
-    onclick = do_stereo,
-    restart = 1 
-}
+--local tv = awesomebuttons.with_text{ 
+--    type = 'outline', 
+--    text_size = 7,
+--    text = 'TV',    
+--    color = 'olive' ,
+--    onclick = do_hdmi,
+--    restart = 1 
+--}
+--local pc = awesomebuttons.with_text{ 
+--    text_size = 7,
+--    text = 'PC',    
+--    type = 'outline', 
+--    color = 'grey' ,
+--    onclick = do_stereo,
+--    restart = 1 
+--}
 
 -- CPU big progressbar
 local cputext = wibox.widget {
@@ -520,10 +564,11 @@ local TopPanel = function(s, offset)
               }),5,5,10,10),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv_button,5,5,0,0),
-      wibox.container.margin (tv,5,5,0,0),
-      wibox.container.margin (pc,0,5,0,0),
-      wibox.container.margin (mytextclock,5,5,0,0),
+      wibox.container.margin (tv_button,5,0,0,0),
+      wibox.container.margin (pc_button,0,5,0,0),
+--      wibox.container.margin (tv,5,5,0,0),
+--      wibox.container.margin (pc,0,5,0,0),
+      wibox.container.margin (mytextclock,5,5,4,0),
       -- Layout box
       LayoutBox(s)
     }
