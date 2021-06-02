@@ -10,6 +10,7 @@ local watch = require('awful.widget.watch')
 local awesomebuttons = require("awesome-buttons.awesome-buttons")
 
 local bgcolor = '#192933'
+local bgcolorlite = '#293943'
 local bgcolorhover = '#121e25'
 
 local dpi = require('beautiful').xresources.apply_dpi
@@ -17,7 +18,7 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- Clock / Calendar 24h format
-local mytextclock = wibox.widget.textclock('<span font="Roboto Mono normal 9">%d.%m.%Y</span><span font="Roboto Mono bold 9" color="#70e0f0"> %H:%M</span>')
+local mytextclock = wibox.widget.textclock('<span font="Roboto Mono bold 12" color="#70e0f0">%H:%M</span>\r<span font="Roboto Mono normal 7">%d.%m.%Y</span>')
 
 local add_button = mat_icon_button(mat_icon(icons.plus, dpi(24)))
 add_button:buttons(
@@ -44,6 +45,49 @@ add_button:buttons(
 
 local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo; pacmd set-sink-volume alsa_output.pci-0000_01_00.1.hdmi-stereo 23000"
 local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; pacmd set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 65536"
+
+local tv_button = wibox.widget{
+   {
+        {
+            {            
+                image = os.getenv("HOME") .. '/.config/awesome/awesome-buttons/icons/tv.svg',
+                resize = true,
+                forced_height = 24,
+                forced_width = 24,
+                widget = wibox.widget.imagebox
+            },
+            valign = 'center',
+            align = 'center',
+            widget = wibox.container.place
+        },
+        left = 10,
+        right = 10,
+        widget = wibox.container.margin
+    },
+    bg = bgcolor,
+    widget = wibox.container.background
+}
+local old_cursor_tv, old_wibox_tv
+tv_button:connect_signal("mouse::enter", function(c)
+    local wb_tv = mouse.current_wibox
+    old_cursor_tv, old_wibox_tv = wb_tv.cursor, wb_tv
+    wb_tv.cursor = "hand1"
+    tv_button.bg = bgcolorhover
+end
+)
+tv_button:connect_signal("mouse::leave", function(c)
+    if old_wibox_tv then
+        old_wibox_tv.cursor = old_cursor_tv
+        old_wibox_tv = nil
+    end
+    tv_button.bg = bgcolor
+end)
+tv_button:connect_signal("button::press", function() 
+    awful.spawn.with_shell(do_hdmi)
+    awesome.restart() 
+end
+)
+
 
 local tv = awesomebuttons.with_text{ 
     type = 'outline', 
@@ -105,8 +149,8 @@ watch(
     local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
     cpuload.value = math.ceil(diff_usage)
-    cputext.markup = cpuload.value .. "%"
-    if cpuload.value > 90 then
+    cputext.markup = math.ceil(diff_usage) .. "%"
+    if math.ceil(diff_usage) > 90 then
         cpuload.color = "#ff808080"        
     end    
     total_prev = total
@@ -143,7 +187,7 @@ local temptext = wibox.widget {
 local tempload = wibox.widget {
     value            = 40,
     max_value        = 100,
-    background_color = bgcolorhover,
+    background_color = bgcolorlite,
     border_width     = 0,
     color            = "#ffff8030",
     paddings         = 0,
@@ -200,7 +244,7 @@ local tempgtext = wibox.widget {
 local tempgload = wibox.widget {
     value            = 40,
     max_value        = 100,
-    background_color = bgcolorhover,
+    background_color = bgcolorlite,
     border_width     = 0,
     color            = "#80ffff30",
     paddings         = 0,
@@ -476,9 +520,10 @@ local TopPanel = function(s, offset)
               }),5,5,10,10),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv,5,5,18,5),
-      wibox.container.margin (pc,0,5,18,5),
-      wibox.container.margin (mytextclock,5,5,10,10),
+      wibox.container.margin (tv_button,5,5,0,0),
+      wibox.container.margin (tv,5,5,0,0),
+      wibox.container.margin (pc,0,5,0,0),
+      wibox.container.margin (mytextclock,5,5,0,0),
       -- Layout box
       LayoutBox(s)
     }
