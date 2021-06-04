@@ -20,8 +20,8 @@ local icons = require('theme.icons')
 -- my widgets
 local cpu_line = require('widget.cpu.cpu_line')
 local mem_line = require('widget.ram.mem_line')
-local tv_button = require('widget.buttons.tv_button')
-local pc_button = require('widget.buttons.pc_button')
+local tv_line = require('widget.buttons.tv_line')
+local pc_line = require('widget.buttons.pc_line')
 local temp_cpu = require('widget.temperature.temp_cpu')
 local temp_gpu = require('widget.temperature.temp_gpu')
 
@@ -218,10 +218,10 @@ local TopPanel = function(s, offset)
                     show_hourly_forecast = true,
                     show_daily_forecast = true,
             }),5,5,4,4),
+            wibox.container.margin (tv_line, 5,2,10,10),
+            wibox.container.margin (pc_line, 2,10,10,10),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv_button,0,0,0,0),
-      wibox.container.margin (pc_button,0,5,0,0),
       wibox.container.margin (mytextclock,5,5,4,0),
       LayoutBox(s)
     }
