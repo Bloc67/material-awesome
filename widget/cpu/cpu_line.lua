@@ -36,7 +36,7 @@ local cpu_line_comb = wibox.widget {
     forced_height = 24,
     layout = wibox.layout.ratio.vertical
 }
-cpu_line_comb:ajust_ratio(2,0.85,0.15,0)
+cpu_line_comb:ajust_ratio(2,0.8,0.2,0)
 
 local total_prev = 0
 local idle_prev = 0

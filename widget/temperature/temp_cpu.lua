@@ -32,7 +32,7 @@ watch(
     local temp = tonumber(stdout)
     --tempload0.markup = '<span color="#606060">' .. temp .. "°" .. '</span>'
     temptext.markup = "CPU " .. temp .. "°"
-    if temp > 50 then
+    if temp > 55 then
         tempload2.bg = "#ff2000c0"        
     end    
     if temp > 70 then

@@ -31,7 +31,7 @@ watch(
     local temp = tonumber(stdout)
 
     tempgtext.markup = "GPU " .. temp .. "°"
-    if temp > 50 then
+    if temp > 55 then
         tempgload2.bg = "#ff2000a0"        
     end    
     if temp > 70 then

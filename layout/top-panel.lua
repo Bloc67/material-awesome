@@ -201,13 +201,8 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (
-                wibox.widget {
-                    cpu_line_comb,
-                    mem_line_comb,
-                    layout = wibox.layout.align.vertical,
-                },0,5,0,5
-            ),
+            wibox.container.margin (cpu_line_comb, 0,5,10,10),
+            wibox.container.margin (mem_line_comb, 0,5,10,10),
             wibox.container.margin (
                 wibox.widget {
                     tempgload2,

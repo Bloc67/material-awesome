@@ -33,6 +33,7 @@ local tv_button = wibox.widget{
         widget = wibox.container.margin
     },
     bg = bgcolor,
+    opacity = 0.5,
     widget = wibox.container.background
 }
 local old_cursor_tv, old_wibox_tv
@@ -40,7 +41,7 @@ tv_button:connect_signal("mouse::enter", function(c)
     local wb_tv = mouse.current_wibox
     old_cursor_tv, old_wibox_tv = wb_tv.cursor, wb_tv
     wb_tv.cursor = "hand1"
-    tv_button.bg = bgcolorlite
+    tv_button.opacity = 1
 end
 )
 tv_button:connect_signal("mouse::leave", function(c)
@@ -48,8 +49,9 @@ tv_button:connect_signal("mouse::leave", function(c)
         old_wibox_tv.cursor = old_cursor_tv
         old_wibox_tv = nil
     end
-    tv_button.bg = bgcolor
-end)
+    tv_button.opacity = 0.5
+end
+)
 tv_button:connect_signal("button::press", function() 
     awful.spawn.with_shell(do_hdmi)
     awesome.restart() 
