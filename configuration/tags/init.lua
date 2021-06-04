@@ -80,6 +80,7 @@ local tags = {
 
 awful.layout.layouts = {
   awful.layout.suit.tile,
+  awful.layout.suit.tile.bottom,
   awful.layout.suit.max,
   --awful.layout.suit.fair.horizontal,
   --awful.layout.suit.fair.v,
@@ -87,8 +88,7 @@ awful.layout.layouts = {
   --awful.layout.suit.corner.nw,
   --awful.layout.suit.floating
   --awful.layout.suit.spiral.dwindle,
-  --awful.layout.suit.tile.bottom,
-  --awful.layout.suit.tile.top
+  awful.layout.suit.tile.top
 }
 
 awful.screen.connect_for_each_screen(

@@ -12,6 +12,7 @@ function build(widget)
     'mouse::enter',
     function()
       container.bg = '#ffffff11'
+      container.opacity = 1
       -- Hm, no idea how to get the wibox from this signal's arguments...
       local w = _G.mouse.current_wibox
       if w then

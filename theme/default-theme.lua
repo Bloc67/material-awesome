@@ -23,7 +23,7 @@ local awesome_overrides =
   theme.dir = os.getenv('HOME') .. '/.config/awesome/theme'
 
   theme.icons = theme.dir .. '/icons/'
-  theme.wallpaper = theme.dir .. '/wallpapers/mcrn.png'
+  theme.wallpaper = theme.dir .. '/wallpapers/Dark.jpg'
   --theme.wallpaper = '#e0e0e0'
   theme.font = 'Roboto medium 10'
   theme.title_font = 'Roboto medium 14'
@@ -61,8 +61,10 @@ local awesome_overrides =
 
   -- Layout
 
-  theme.layout_max = theme.icons .. 'layouts/arrow-expand-all.png'
-  theme.layout_tile = theme.icons .. 'layouts/view-quilt.png'
+  theme.layout_max = theme.icons .. 'layouts/maximize.svg'
+  theme.layout_tile = theme.icons .. 'layouts/view_quilt.svg'
+  theme.layout_tilebottom = theme.icons .. 'layouts/menu.svg'
+  theme.layout_tiletop = theme.icons .. 'layouts/menu.svg'
 
   -- Taglist
 
