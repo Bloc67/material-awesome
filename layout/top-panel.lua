@@ -217,13 +217,21 @@ local TopPanel = function(s, offset)
                     icons_extension = '.png',
                     show_hourly_forecast = true,
                     show_daily_forecast = true,
-            }),5,5,4,4),
+            }),5,5,10,10),
             wibox.container.margin (tv_line, 5,2,10,10),
             wibox.container.margin (pc_line, 2,10,10,10),
             layout = wibox.layout.fixed.horizontal,
       },
       wibox.container.margin (mytextclock,5,5,4,0),
-      LayoutBox(s)
+      wibox.container {
+        LayoutBox(s),
+        left = 10,
+        right = 10,
+        top = 10,
+        bottom = 10,
+        opacity = 0.4,
+        widget = wibox.container.margin          
+      }
     }
   }
 
