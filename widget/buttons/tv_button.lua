@@ -22,7 +22,8 @@ local tv_button = wibox.widget{
                 resize = true,
                 forced_height = 24,
                 forced_width = 24,
-                widget = wibox.widget.imagebox
+                opacity = 0.5,
+               widget = wibox.widget.imagebox
             },
             valign = 'center',
             align = 'center',
@@ -33,7 +34,6 @@ local tv_button = wibox.widget{
         widget = wibox.container.margin
     },
     bg = bgcolor,
-    opacity = 0.5,
     widget = wibox.container.background
 }
 local old_cursor_tv, old_wibox_tv
@@ -41,7 +41,7 @@ tv_button:connect_signal("mouse::enter", function(c)
     local wb_tv = mouse.current_wibox
     old_cursor_tv, old_wibox_tv = wb_tv.cursor, wb_tv
     wb_tv.cursor = "hand1"
-    tv_button.opacity = 1
+    tv_button.bg = bgcolorlite
 end
 )
 tv_button:connect_signal("mouse::leave", function(c)
@@ -49,7 +49,7 @@ tv_button:connect_signal("mouse::leave", function(c)
         old_wibox_tv.cursor = old_cursor_tv
         old_wibox_tv = nil
     end
-    tv_button.opacity = 0.5
+    tv_button.bg = bgcolor
 end
 )
 tv_button:connect_signal("button::press", function() 

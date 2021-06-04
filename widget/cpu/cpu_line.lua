@@ -9,34 +9,12 @@ local bgcolorlite = '#293943'
 local bgcolorhover = '#121e25'
 
 -- CPU big progressbar
-local cpu_line_text = wibox.widget {
+local cpu_line = wibox.widget {
     align = 'left',
-    valign = 'bottom',
+    valign = 'center',
     widget = wibox.widget.textbox,
     markup = "%",
 }
-local cpu_line = wibox.widget {
-    value            = 4,
-    max_value        = 100,
-    background_color = bgcolor,
-    border_width     = 0,
-    color            = "#ddffee30",
-    paddings         = 0,
-    widget = wibox.widget.progressbar
-}
-local cpu_line_comb = wibox.widget {
-    cpu_line_text,    
-    wibox.widget {
-        cpu_line,
-        forced_width  = 50,
-        forced_height = 5,
-        direction     = 'north',
-        layout        = wibox.container.rotate
-    },
-    forced_height = 24,
-    layout = wibox.layout.ratio.vertical
-}
-cpu_line_comb:ajust_ratio(2,0.8,0.2,0)
 
 local total_prev = 0
 local idle_prev = 0
@@ -53,10 +31,9 @@ watch(
     local diff_total = total - total_prev
     local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
-    cpu_line.value = math.ceil(diff_usage)
-    cpu_line_text.markup = '<span font="Roboto Mono normal 8" color="#ffffff50">CPU </span><span font="Roboto Mono normal 8" color="#ffffff80">' .. math.ceil(diff_usage) .. '%</span>'
+    cpu_line.markup = '<span font="Roboto Mono normal" color="#ffffff50">CPU </span><span font="Roboto Mono normal" color="#ffffff80">' .. math.ceil(diff_usage) .. '%</span>'
     if math.ceil(diff_usage) > 90 then
-        cpu_big.color = "#ff808080"        
+        cpu_line.color = "#ff4020ff"        
     end    
     total_prev = total
     idle_prev = idle
@@ -65,20 +42,20 @@ watch(
 )
 
 local old_cursor, old_wibox
-cpu_line_comb:connect_signal("mouse::enter", function(c)
+cpu_line:connect_signal("mouse::enter", function(c)
     local wb = mouse.current_wibox
     old_cursor, old_wibox = wb.cursor, wb
     wb.cursor = "hand1"
 end)
-cpu_line_comb:connect_signal("mouse::leave", function(c)
+cpu_line:connect_signal("mouse::leave", function(c)
     if old_wibox then
         old_wibox.cursor = old_cursor
         old_wibox = nil
     end
 end)
-cpu_line_comb:connect_signal("button::press", function() 
+cpu_line:connect_signal("button::press", function() 
     awful.spawn.with_shell("terminator -e bashtop") 
 end
 )
 
-return cpu_line_comb
+return cpu_line

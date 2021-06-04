@@ -18,14 +18,12 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- my widgets
-local cpu_big_stack = require('widget.cpu.cpu_big_stack')
-local cpu_line_comb = require('widget.cpu.cpu_line')
-local mem_line_comb = require('widget.ram.mem_line')
-local mem_big_stack = require('widget.ram.mem_big_stack')
+local cpu_line = require('widget.cpu.cpu_line')
+local mem_line = require('widget.ram.mem_line')
 local tv_button = require('widget.buttons.tv_button')
 local pc_button = require('widget.buttons.pc_button')
-local tempload2 = require('widget.temperature.temp_cpu')
-local tempgload2 = require('widget.temperature.temp_gpu')
+local temp_cpu = require('widget.temperature.temp_cpu')
+local temp_gpu = require('widget.temperature.temp_gpu')
 
 -- Clock / Calendar 24h format
 local mytextclock = wibox.widget.textclock('<span font="Roboto Mono bold 12" color="#70e0f0">%H:%M</span>\r<span font="Roboto Mono normal 7">%d.%m.%Y</span>')
@@ -201,15 +199,10 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (cpu_line_comb, 0,5,10,10),
-            wibox.container.margin (mem_line_comb, 0,5,10,10),
-            wibox.container.margin (
-                wibox.widget {
-                    tempgload2,
-                    tempload2,
-                    layout = wibox.layout.align.vertical,
-                },10,5,0,0
-            ),
+            wibox.container.margin (cpu_line, 0,5,10,10),
+            wibox.container.margin (mem_line, 5,5,10,10),
+            wibox.container.margin (temp_cpu, 5,5,10,10),
+            wibox.container.margin (temp_gpu, 0,5,10,10),
             wibox.container.margin ( weather_widget({
                     api_key='596e71c77713e6a51c75d1788ea41ce1',
                     coordinates = {62.7476225262126, 7.2289747750247795},
@@ -227,7 +220,7 @@ local TopPanel = function(s, offset)
             }),5,5,4,4),
             layout = wibox.layout.fixed.horizontal,
       },
-      wibox.container.margin (tv_button,5,0,0,0),
+      wibox.container.margin (tv_button,0,0,0,0),
       wibox.container.margin (pc_button,0,5,0,0),
       wibox.container.margin (mytextclock,5,5,4,0),
       LayoutBox(s)

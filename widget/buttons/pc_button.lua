@@ -22,6 +22,7 @@ local pc_button = wibox.widget{
                 resize = true,
                 forced_height = 24,
                 forced_width = 24,
+                opacity = 0.5,
                 widget = wibox.widget.imagebox
             },
             valign = 'center',
@@ -33,7 +34,6 @@ local pc_button = wibox.widget{
         widget = wibox.container.margin
     },
     bg = bgcolor,
-    opacity = 0.5,
     widget = wibox.container.background
 }
 local old_cursor_pc, old_wibox_pc
@@ -41,7 +41,7 @@ pc_button:connect_signal("mouse::enter", function(c)
     local wb_pc = mouse.current_wibox
     old_cursor_pc, old_wibox_pc = wb_pc.cursor, wb_pc
     wb_pc.cursor = "hand1"
-    pc_button.opacity = 1
+    pc_button.bg = bgcolorlite
 end
 )
 pc_button:connect_signal("mouse::leave", function(c)
@@ -49,8 +49,9 @@ pc_button:connect_signal("mouse::leave", function(c)
         old_wibox_pc.cursor = old_cursor_pc
         old_wibox_pc = nil
     end
-    pc_button.opacity = 0.5
-end)
+    pc_button.bg = bgcolor
+end
+)
 pc_button:connect_signal("button::press", function() 
     awful.spawn.with_shell(do_stereo)
     awesome.restart() 
