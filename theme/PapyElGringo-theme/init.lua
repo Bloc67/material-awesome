@@ -11,13 +11,14 @@ theme.font = 'Roboto medium 10'
 
 -- Primary
 theme.primary = mat_colors.indigo
-theme.primary.hue_500 = '#005060'
+theme.primary.hue_500 = '#008090'
 -- Accent
-theme.accent = mat_colors.pink
+theme.accent = mat_colors.orange
 
 -- Background
 theme.background = mat_colors.blue_grey
 
+theme.background.hue_700 = '#394953'
 theme.background.hue_800 = '#192933'
 theme.background.hue_900 = '#121e25'
 
