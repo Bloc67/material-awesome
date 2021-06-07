@@ -18,12 +18,16 @@ local dpi = require('beautiful').xresources.apply_dpi
 local icons = require('theme.icons')
 
 -- my widgets
-local cpu_line = require('widget.cpu.cpu_line')
-local mem_line = require('widget.ram.mem_line')
+local cpu_icon = require('widget.cpu.cpu_icon')
+local mem_icon = require('widget.ram.mem_icon')
+
 local tv_line = require('widget.buttons.tv_line')
 local pc_line = require('widget.buttons.pc_line')
-local temp_cpu = require('widget.temperature.temp_cpu')
-local temp_gpu = require('widget.temperature.temp_gpu')
+
+local temp_icon_cpu = require('widget.temperature.temp_icon_cpu')
+local temp_icon_gpu = require('widget.temperature.temp_icon_gpu')
+
+local uptime_icon = require('widget.uptime.uptime_icon')
 
 -- Clock / Calendar 24h format
 local mytextclock = wibox.widget.textclock('<span font="Roboto Mono bold 12" color="#70e0f0">%H:%M</span>\r<span font="Roboto Mono normal 7">%d.%m.%Y</span>')
@@ -199,10 +203,11 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (cpu_line, 0,5,10,10),
-            wibox.container.margin (mem_line, 5,5,10,10),
-            wibox.container.margin (temp_cpu, 5,5,10,10),
-            wibox.container.margin (temp_gpu, 0,5,10,10),
+            wibox.container.margin (uptime_icon, 0,8,16,10),
+            wibox.container.margin (cpu_icon, 0,5,16,10),
+            wibox.container.margin (mem_icon, 5,5,16,10),
+            wibox.container.margin (temp_icon_cpu, 0,5,16,10),
+            wibox.container.margin (temp_icon_gpu, 0,5,16,10),
             wibox.container.margin ( weather_widget({
                     api_key='596e71c77713e6a51c75d1788ea41ce1',
                     coordinates = {62.7476225262126, 7.2289747750247795},

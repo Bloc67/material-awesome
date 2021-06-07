@@ -50,8 +50,10 @@ return {
   volume = dir .. '/volume-high.svg',
   brightness = dir .. '/brightness-7.svg',
   chart = dir .. '/chart-areaspline.svg',
-  memory = dir .. '/memory.svg',
+  cpu = dir .. '/cpu.svg',
+  memory = dir .. '/database.svg',
   harddisk = dir .. '/harddisk.svg',
   thermometer = dir .. '/thermometer.svg',
+  temperature = dir .. '/thermometer.svg',
   plus = dir .. '/plus.svg'
 }
