@@ -44,8 +44,8 @@ watch(
     local diff_usage = (1000 * (diff_total - diff_idle) / diff_total + 5) / 10
 
     cpu_line.markup = '<span font="Roboto Mono normal" color="#ffffffb0"> ' .. math.ceil(diff_usage) .. '%</span>'
-    if math.ceil(diff_usage) > 90 then
-        cpu_line.color = "#ff4020ff"        
+    if math.ceil(diff_usage) > 75 then
+        cpu_line.markup = '<span font="Roboto Mono normal" color="#ff5020"> ' .. math.ceil(diff_usage) .. '%</span>'
     end    
     total_prev = total
     idle_prev = idle

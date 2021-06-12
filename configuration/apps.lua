@@ -9,6 +9,7 @@ return {
   -- List of apps to start by default on some actions
   default = {
     terminal = 'terminator',
+    mail = 'thunderbird',
     rofi = rofi_command,
     lock = 'i3lock-fancy',
     quake = 'terminator',
@@ -20,7 +21,7 @@ return {
     social = 'discord',
     game = rofi_command,
     files = 'nemo',
-    music = 'audacious' 
+    music = 'quodlibet' 
   },
   -- List of apps to start once on start-up
   run_on_start_up = {

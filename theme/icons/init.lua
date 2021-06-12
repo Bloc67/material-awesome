@@ -12,6 +12,9 @@ return {
   forum = dir .. '/forum.svg',
   qb = dir .. '/qb.svg',
   emby = dir .. '/emby.svg',
+  comic = dir .. '/eye.svg',
+  virtbox = dir .. '/airplay.svg',
+  video = dir .. '/film.svg',
 
   aa = dir .. '/tag-list/1.svg',
   ab = dir .. '/tag-list/2.svg',
@@ -38,6 +41,7 @@ return {
   film = dir .. '/movie.svg',
   picture = dir .. '/gallery.svg',
 
+  mail = dir .. '/mail.svg',
 
   menu = dir .. '/menu.svg',
   close = dir .. '/close.svg',
