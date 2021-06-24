@@ -23,6 +23,7 @@ local mem_icon = require('widget.ram.mem_icon')
 
 local tv_line = require('widget.buttons.tv_line')
 local pc_line = require('widget.buttons.pc_line')
+local twice_line = require('widget.buttons.twice_line')
 
 local temp_icon_cpu = require('widget.temperature.temp_icon_cpu')
 local temp_icon_gpu = require('widget.temperature.temp_icon_gpu')
@@ -208,6 +209,7 @@ local TopPanel = function(s, offset)
             wibox.container.margin (mem_icon, 5,5,16,10),
             wibox.container.margin (temp_icon_cpu, 0,5,16,10),
             wibox.container.margin (temp_icon_gpu, 0,5,16,10),
+            wibox.container.margin (twice_line, 5,2,10,10),
             wibox.container.margin ( weather_widget({
                     api_key='596e71c77713e6a51c75d1788ea41ce1',
                     coordinates = {62.7476225262126, 7.2289747750247795},
