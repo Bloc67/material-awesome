@@ -8,7 +8,6 @@ local bgcolor = '#192933'
 local bgcolorlite = '#293943'
 local bgcolorhover = '#121e25'
 
-
 -- my buttons
 -- if they change: pacmd list-sources | grep -e 'index:' -e device.string -e 'name:'
 
