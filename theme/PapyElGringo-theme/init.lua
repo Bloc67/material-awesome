@@ -10,10 +10,10 @@ theme.font = 'Roboto medium 10'
 -- Colors Pallets
 
 -- Primary
-theme.primary = mat_colors.orange
-theme.primary.hue_500 = '#008090'
+theme.primary = mat_colors.indigo
+theme.primary.hue_500 = '#006699'
 -- Accent
-theme.accent = mat_colors.orange
+theme.accent = mat_colors.pink
 
 -- Background
 theme.background = mat_colors.blue_grey

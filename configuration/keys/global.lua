@@ -309,7 +309,15 @@ local globalKeys =
   ),
   awful.key(
     {},
-    'XF86PowerOff',
+    'KP_Enter',
+    function()
+      _G.exit_screen_show()
+    end,
+    {description = 'toggle mute', group = 'hotkeys'}
+  ),
+  awful.key(
+    {},
+    'XF86Calculator',
     function()
       _G.exit_screen_show()
     end,

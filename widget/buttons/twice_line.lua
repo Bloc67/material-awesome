@@ -17,7 +17,7 @@ local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --outp
 --local do_hdmi = "echo 'hdmi'"
 
 local do_zen = "zenity --progress --title='Vent..' --pulsate --auto-close --auto-kill"
-local do_twice = do_hdmi .. "; sleep 3 | " .. do_zen .. ";" .. do_stereo .. "; sleep 3 | " .. do_zen .. ";" .. do_hdmi  
+local do_twice = do_hdmi .. " | " .. do_zen .. "; sleep 8; " .. do_stereo .. " | " .. do_zen .. "; sleep 8; " .. do_hdmi  
 
 -- new PC button
 local twice_line = wibox.widget {

@@ -58,6 +58,27 @@ function reboot_command()
   awful.keygrabber.stop(_G.exit_screen_grabber)
 end
 
+local do_hdmi = "xrandr --output DisplayPort-0 --off --output DVI-1 --off --output DVI-0 --off --output HDMI-0 --primary --mode 1920x1080 --pos 0x0 --rotate normal; pacmd set-default-sink alsa_output.pci-0000_01_00.1.hdmi-stereo; pacmd set-sink-volume alsa_output.pci-0000_01_00.1.hdmi-stereo 31000"
+local tv = buildButton(icons.video, 'tv')
+tv:connect_signal(
+  'button::release',
+  function()
+    awful.spawn.with_shell(do_hdmi)
+    awesome.restart() 
+  end
+)
+
+local do_stereo = "xrandr --output DisplayPort-0 --off --output DVI-1 --gamma 1.15:1.15:1.15 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output DVI-0 --off --output HDMI-0 --off; pacmd set-default-sink alsa_output.pci-0000_00_1b.0.analog-stereo; pacmd set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo 65536"
+local pc = buildButton(icons.film, 'pc')
+pc:connect_signal(
+  'button::release',
+  function()
+    awful.spawn.with_shell(do_stereo)
+    awesome.restart() 
+  end
+)
+
+
 local poweroff = buildButton(icons.power, 'Shutdown')
 poweroff:connect_signal(
   'button::release',
@@ -136,12 +157,8 @@ function exit_screen_show()
 
       if key == 's' then
         suspend_command()
-      elseif key == 'e' then
-        exit_command()
       elseif key == 'l' then
         lock_command()
-      elseif key == 'p' then
-        poweroff_command()
       elseif key == 'r' then
         reboot_command()
       elseif key == 'Escape' or key == 'q' or key == 'x' then
@@ -182,9 +199,9 @@ exit_screen:setup {
     nil,
     {
       -- {
-      poweroff,
+      tv,
+      pc,    
       reboot,
-      suspend,
       exit,
       lock,
       layout = wibox.layout.fixed.horizontal
