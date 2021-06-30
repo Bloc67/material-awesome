@@ -1,18 +1,12 @@
 ### Debian-Based
 
 ```
-sudo apt install awesome fonts-roboto rofi i3lock xclip qt5-style-plugins materia-gtk-theme lxappearance  xfce4-power-manager pnmixer network-manager-applet -y
+sudo apt install awesome fonts-roboto rofi i3lock xclip qt5-style-plugins materia-gtk-theme lxappearance  xfce4-power-manager pnmixer chromium terminator -y
+sudo apt install network-manager-applet -y
 wget -qO- https://git.io/papirus-icon-theme-install | sh
 ```
 
 *Note: compton is used instead of picom*
-
-#### Arch-Based
-
-```
-yay -S awesome rofi i3lock-fancy xclip ttf-roboto materia-gtk-theme lxappearance pnmixer xfce4-power-manager -y
-wget -qO- https://git.io/papirus-icon-theme-install | sh
-```
 
 ### Clone the configuration
 

@@ -55,10 +55,10 @@ local tags = {
     defaultApp = apps.default.files,
     screen = 1,
     layout = awful.layout.suit.tile,
-    npolicy = 'master_width_factor',
-    nwidth = 0.33,
+    npolicy = 'expand',
+    nwidth = 0.5,
     nmaster = 1,
-    ncol = 1 
+    ncol = 2 
   },
   {
     icon = icons.code,

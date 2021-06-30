@@ -33,7 +33,7 @@ watch(
   12,
   function(_, stdout)
     local temp = tonumber(stdout)
-    temp_cpu.markup = '<span font="Roboto Mono normal" color="#ffffffb0">' .. temp .. '°</span>'
+    temp_cpu.markup = '<span font="Roboto Mono normal" color="#90ff70d0">' .. temp .. '°</span>'
     if temp > 55 then
         temp_cpu.markup = '<span font="Roboto Mono normal" color="#ff4000ff">' .. temp .. '°</span>'
     end

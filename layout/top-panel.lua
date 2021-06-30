@@ -203,7 +203,7 @@ local TopPanel = function(s, offset)
     {
       layout = wibox.layout.fixed.horizontal,
       {
-            wibox.container.margin (uptime_icon, 0,8,16,10),
+--            wibox.container.margin (uptime_icon, 0,8,16,10),
             wibox.container.margin (cpu_icon, 0,5,16,10),
             wibox.container.margin (mem_icon, 5,5,16,10),
             wibox.container.margin (temp_icon_cpu, 0,5,16,10),

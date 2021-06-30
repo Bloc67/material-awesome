@@ -30,7 +30,7 @@ local uptime_icon = wibox.widget {
 
 watch(
   [[bash -c "uptime -p|grep '^up' | awk '{print $2}'"]],
-  10,
+  300,
   function(_, stdout)
     local days = stdout:match('(%d+)')
     uptime_line.markup = '<span font="Roboto Mono normal" color="#ffffffb0"> ' .. days .. 'd</span>'

@@ -36,7 +36,7 @@ watch(
   function(_, stdout)
     local temp = tonumber(stdout)
 
-    temp_gpu.markup = '<span font="Roboto Mono normal" color="#ffffffb0">' .. temp .. '°</span>'
+    temp_gpu.markup = '<span font="Roboto Mono normal" color="#90ff90b0">' .. temp .. '°</span>'
     if temp > 55 then
         temp_gpu.markup = '<span font="Roboto Mono normal" color="#ff4000ff">' .. temp .. '°</span>'
     end

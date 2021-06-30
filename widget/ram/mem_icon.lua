@@ -14,7 +14,7 @@ local mem_line = wibox.widget {
     align = 'left',
     valign = 'top',
     widget = wibox.widget.textbox,
-    markup = "%",
+    markup = "Gb",
 }
 local mem_icon = wibox.widget {
     wibox.widget {
@@ -36,7 +36,7 @@ watch(
     local total, used, free, shared, buff_cache, available, total_swap, used_swap, free_swap =
       stdout:match('(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*(%d+)%s*Swap:%s*(%d+)%s*(%d+)%s*(%d+)')
     
-    mem_line.markup = '<span font="Roboto Mono normal" color="#ffffffb0"> ' .. math.ceil(used / total * 100) .. '%</span>'
+    mem_line.markup = '<span font="Roboto Mono bold" color="#ffffffb0"> ' .. math.ceil(used / 1000000) .. '</span><span font="Roboto Mono normal" color="#ffffff80">/' .. math.ceil(total / 1000000) .. 'gb</span>'
     
     collectgarbage('collect')
   end
