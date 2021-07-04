@@ -40,6 +40,7 @@ return {
   brave = dir .. '/brave.svg',
   film = dir .. '/movie.svg',
   picture = dir .. '/gallery.svg',
+  kphoto = dir .. '/picture.svg',
 
   mail = dir .. '/mail.svg',
 

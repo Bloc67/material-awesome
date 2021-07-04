@@ -141,6 +141,13 @@ local LayoutBox = function(s)
         function()
           awful.layout.inc(12)
         end
+      ),
+      awful.button(
+        {},
+        13,
+        function()
+          awful.layout.inc(12)
+        end
       )
     )
   )

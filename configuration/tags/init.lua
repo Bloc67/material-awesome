@@ -6,6 +6,7 @@ local lain = require("lain")
 
 local tags = {
   {
+    teller = 1,
     icon = icons.volume,
     type = 'any',
     defaultApp = apps.default.rofi,
@@ -17,6 +18,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 2,
     icon = icons.emby,
     type = 'windows',
     defaultApp = 'emby-theater',
@@ -28,6 +30,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 3,
     icon = icons.brave,
     type = 'browser',
     defaultApp = 'brave-browser',
@@ -39,6 +42,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 4,
     icon = icons.comic,
     type = 'comic',
     defaultApp = 'foliate',
@@ -50,6 +54,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 5,
     icon = icons.folder,
     type = 'any',
     defaultApp = apps.default.files,
@@ -61,6 +66,7 @@ local tags = {
     ncol = 2 
   },
   {
+    teller = 6,
     icon = icons.code,
     type = 'any',
     defaultApp = 'terminator',
@@ -72,6 +78,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 7,
     icon = icons.picture,
     type = 'any',
     defaultApp = 'gthumb',
@@ -83,6 +90,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 8,
     icon = icons.qb,
     type = 'any',
     defaultApp = 'qbittorent',
@@ -94,6 +102,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 9,
     icon = icons.music,
     type = 'music',
     defaultApp = apps.default.music,
@@ -105,6 +114,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 10,
     icon = icons.virtbox,
     type = 'virtual',
     defaultApp = 'virtualbox',
@@ -116,6 +126,7 @@ local tags = {
     ncol = 1 
   },
   {
+    teller = 11,
     icon = icons.video,
     type = 'video',
     defaultApp = apps.default.files,
@@ -123,6 +134,30 @@ local tags = {
     layout = awful.layout.suit.max,
     npolicy = 'expand',
     nwidth = 1,
+    nmaster = 1,
+    ncol = 1 
+  },
+  {
+    teller = 12,
+    icon = icons.code,
+    type = 'any',
+    defaultApp = 'terminator',
+    screen = 1,
+    layout = awful.layout.suit.tile,
+    npolicy = 'expand',
+    nwidth = 0.5,
+    nmaster = 1,
+    ncol = 1 
+  },
+  {
+    teller = 13,
+    icon = icons.kphoto,
+    type = 'any',
+    defaultApp = 'kphotoalbum',
+    screen = 1,
+    layout = awful.layout.suit.tile,
+    npolicy = 'expand',
+    nwidth = 0.5,
     nmaster = 1,
     ncol = 1 
   }
