@@ -12,7 +12,7 @@ local tags = {
     defaultApp = apps.default.rofi,
     screen = 1,
     layout = awful.layout.suit.tile,
-    npolicy = 'master_width_factor',
+    npolicy = 'expand',
     nwidth = 0.4,
     nmaster = 1,
     ncol = 1 
@@ -26,7 +26,7 @@ local tags = {
     layout = awful.layout.suit.tile,
     nmaster = 1,
     npolicy = 'expand',
-    nwidth = 0.4,
+    nwidth = 0.5,
     ncol = 1 
   },
   {
@@ -37,7 +37,7 @@ local tags = {
     screen = 1,
     layout = awful.layout.suit.tile,
     npolicy = 'expand',
-    nwidth = 0.7,
+    nwidth = 0.5,
     nmaster = 1,
     ncol = 1 
   },
@@ -49,7 +49,7 @@ local tags = {
     screen = 1,
     layout = awful.layout.suit.max,
     npolicy = 'expand',
-    nwidth = 1,
+    nwidth = 0.5,
     nmaster = 1,
     ncol = 1 
   },
@@ -84,7 +84,7 @@ local tags = {
     defaultApp = 'gthumb',
     screen = 1,
     layout = awful.layout.suit.tile,
-    npolicy = 'master_width_factor',
+    npolicy = 'expand',
     nwidth = 0.5,
     nmaster = 1,
     ncol = 1 
@@ -121,7 +121,7 @@ local tags = {
     screen = 1,
     layout = awful.layout.suit.max,
     npolicy = 'expand',
-    nwidth = 1,
+    nwidth = 0.5,
     nmaster = 1,
     ncol = 1 
   },
@@ -133,7 +133,7 @@ local tags = {
     screen = 1,
     layout = awful.layout.suit.max,
     npolicy = 'expand',
-    nwidth = 1,
+    nwidth = 0.5,
     nmaster = 1,
     ncol = 1 
   },
