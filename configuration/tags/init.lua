@@ -166,7 +166,6 @@ local tags = {
 awful.layout.layouts = {
   awful.layout.suit.tile,
   awful.layout.suit.max,
-  awful.layout.suit.tile.bottom,
   --awful.layout.suit.fair.horizontal,
   --awful.layout.suit.fair.v,
   --awful.layout.suit.magnifier
